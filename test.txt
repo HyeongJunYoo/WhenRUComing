@@ -1,2 +1,1 @@
-fetch test
-fetch test입니다.
+Fetch test 성공!
