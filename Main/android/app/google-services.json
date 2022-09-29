@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "951636494261",
+    "project_id": "whenrucoming-cf90e",
+    "storage_bucket": "whenrucoming-cf90e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:951636494261:android:05518c1d667371e280bbfc",
+        "android_client_info": {
+          "package_name": "com.test"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "951636494261-1830ercgmgcb03vrcufdheuhub1u10ei.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2skq7U3jyiNPPi5PcJJsS5eHPWPKqHcc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "951636494261-1830ercgmgcb03vrcufdheuhub1u10ei.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
