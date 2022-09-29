@@ -41,8 +41,8 @@ function LoginStudent({navigation}) {
         studentId: userId,
         password: userPassword,
       });
-      setAddName('');
-      setAddAge('');
+      setUserId('');
+      setUserPassword('');
       console.log('Create Complete!');
     } catch (error) {
       console.log(error.message);
