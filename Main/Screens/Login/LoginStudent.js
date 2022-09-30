@@ -27,6 +27,7 @@ function GoToButton({screenName}) {
 
 
 function LoginStudent({navigation}) {
+  const [users, setUsers] = useState();
   const [userId, setUserId] = useState('');
   const [userPassword, setUserPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -34,16 +35,34 @@ function LoginStudent({navigation}) {
  
   const passwordInputRef = createRef();
  
-  const addCollection = firestore().collection('student'); //student라는 컬렉션으로 data 추가
-  const addText = async () => {
+  //FireStore 기능 
+  const usersCollection  = firestore().collection('student'); 
+
+  //데이터 쓰기 Create
+  const createStudent = async () => {
     try {
-      await addCollection.add({
+      await usersCollection.doc(userId).set({
         studentId: userId,
         password: userPassword,
       });
       setUserId('');
       setUserPassword('');
       console.log('Create Complete!');
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  //데이터 읽기 Read
+  const readStudent = async () => {
+    try {
+      const data = await usersCollection.doc(userId).get();
+      if(data.exists){
+        setUsers(data);
+        console.log(users.data["studentId"]);
+      }else{
+        console.log("false");
+      }
     } catch (error) {
       console.log(error.message);
     }
@@ -157,7 +176,8 @@ function LoginStudent({navigation}) {
   
               <Text style={styles.buttonTextStyle}>로그인</Text>
             </TouchableOpacity>
-            <Button title="Id/Password 추가" onPress={addText} />
+            <Button title="Id/Password 추가" onPress={createStudent} />
+            <Button title="데이터 불러오기" onPress={readStudent} />
           </KeyboardAvoidingView>
         </View>
       </ScrollView>
