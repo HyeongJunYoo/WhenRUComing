@@ -80,10 +80,42 @@ function LoginStudent({navigation}) {
       return;
     }
     if(userId && userPassword){
-      {navigation.navigate("HomeMain")}
-      return;
+      addCollection.doc(userId).get().then((doc)=>{
+        try{
+          if(doc.data().password==userPassword){
+            {navigation.navigate("HomeMain")};
+            return;
+          }
+          else{
+            Alert.alert(
+              '비밀번호 오류 확인',
+              '비밀번호를 다시 입력해주세요',
+              [
+                {text: '확인', onPress: () => {}, style: 'cancel'},             
+              ],
+              {
+                cancelable: true,
+                onDismiss: () => {},
+              },  
+            )
+            return;
+          }
+        }catch(e){
+          Alert.alert(
+            '학번 오류 확인',
+            '학번을 다시 입력해주세요',
+            [
+              {text: '확인', onPress: () => {}, style: 'cancel'},             
+            ],
+            {
+              cancelable: true,
+              onDismiss: () => {},
+            },     
+          );
+          return;
+        }
+      }) 
     }
-
   };
  
   return (
