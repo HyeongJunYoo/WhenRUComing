@@ -12,6 +12,7 @@ import {createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginMain from './Screens/Login/LoginMain';
 import LoginBus from './Screens/Login/LoginBus';
 import LoginStudent from './Screens/Login/LoginStudent';
+import CheckLogin from './Screens/Login/CheckLogin' ;
 import HomeMain from './Screens/ScreenMain/HomeMain' ;
 import Busr from './Screens/ScreenMain/Busr' ;
 import BusMap from './Screens/ScreenMain/BusMap' ;
@@ -81,6 +82,11 @@ const App = () => {
           <Stack.Screen
           name="BusMap"
           component={BusMap}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="CheckLogin"
+          component={CheckLogin}
           options={{headerShown: false}}
         />
         
