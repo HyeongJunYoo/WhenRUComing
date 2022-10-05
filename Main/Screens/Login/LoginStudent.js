@@ -1,3 +1,6 @@
+// Example of Splash, Login and Sign Up in React Native
+// https://aboutreact.com/react-native-login-and-signup/
+ 
 // Import React and Component
 import React, {useState, createRef} from 'react';
 import {
@@ -14,11 +17,16 @@ import {
   Button
 } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
-import useNavigation from '@react-navigation/native';
-import CheckLogin from './CheckLogin';
+import { useNavigation } from '@react-navigation/native';
+
+function GoToButton({screenName}) {
+  const navigation = useNavigation();
+
+  return <Button title={`${screenName}`} onPress={() => navigation.navigate(screenName)} />
+}
+
 
 function LoginStudent({navigation}) {
-  const [users, setUsers] = useState();
   const [userId, setUserId] = useState('');
   const [userPassword, setUserPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -26,74 +34,89 @@ function LoginStudent({navigation}) {
  
   const passwordInputRef = createRef();
  
-  // //FireStore 기능 
-  // const usersCollection  = firestore().collection('student'); 
+  const addCollection = firestore().collection('student'); //student라는 컬렉션으로 data 추가
+  const addText = async () => {
+    try {
+      await addCollection.add({
+        studentId: userId,
+        password: userPassword,
+      });
+      setUserId('');
+      setUserPassword('');
+      console.log('Create Complete!');
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
-  // //데이터 쓰기 Create
-  // const createStudent = async () => {
-  //   try {
-  //     await usersCollection.doc(userId).set({
-  //       studentId: userId,
-  //       password: userPassword,
-  //     });
-  //     setUserId('');
-  //     setUserPassword('');
-  //     console.log('Create Complete!');
-  //   } catch (error) {
-  //     console.log(error.message);
-  //   }
-  // };
-
-  // //데이터 읽기 Read
-  // const readStudent = async () => {
-  //   try {
-  //     const data = await usersCollection.doc(userId).get();
-  //     if(data.exists){
-  //       setUsers(data);
-  //       console.log(users.data["studentId"]);
-  //     }else{
-  //       console.log("false");
-  //     }
-  //   } catch (error) {
-  //     console.log(error.message);
-  //   }
-  // };
-
-  // const handleSubmitPress = () => {
-  //   setErrortext('');
-  //   if (!userId) {
-  //       Alert.alert(
-  //           '학번 누락 확인',
-  //           '학번을 입력해주세요',
-  //           [
-  //             {text: '확인', onPress: () => {}, style: 'cancel'},             
-  //           ],
-  //           {
-  //             cancelable: true,
-  //             onDismiss: () => {},
-  //           },       
-  //      );
-  //     return;
-  //   }
-  //   if (!userPassword) {
-  //       Alert.alert(
-  //           '비밀번호 누락 확인',
-  //           '비밀번호를 입력해주세요',
-  //           [
-  //             {text: '확인', onPress: () => {}, style: 'cancel'},             
-  //           ],
-  //           {
-  //             cancelable: true,
-  //             onDismiss: () => {},
-  //           },       
-  //      );
-  //     return;
-  //   }
-  //   if(userId && userPassword){
-  //     // navigation.navigate("CheckLogin", {name: "test"})
-  //   }
-
-  // };
+  const handleSubmitPress = () => {
+    setErrortext('');
+    if (!userId) {
+        Alert.alert(
+            '학번 누락 확인',
+            '학번을 입력해주세요',
+            [
+              {text: '확인', onPress: () => {}, style: 'cancel'},             
+            ],
+            {
+              cancelable: true,
+              onDismiss: () => {},
+            },       
+       );
+      return;
+    }
+    if (!userPassword) {
+        Alert.alert(
+            '비밀번호 누락 확인',
+            '비밀번호를 입력해주세요',
+            [
+              {text: '확인', onPress: () => {}, style: 'cancel'},             
+            ],
+            {
+              cancelable: true,
+              onDismiss: () => {},
+            },       
+       );
+      return;
+    }
+    if(userId && userPassword){
+      addCollection.doc(userId).get().then((doc)=>{
+        try{
+          if(doc.data().password==userPassword){
+            {navigation.navigate("HomeMain")};
+            return;
+          }
+          else{
+            Alert.alert(
+              '비밀번호 오류 확인',
+              '비밀번호를 다시 입력해주세요',
+              [
+                {text: '확인', onPress: () => {}, style: 'cancel'},             
+              ],
+              {
+                cancelable: true,
+                onDismiss: () => {},
+              },  
+            )
+            return;
+          }
+        }catch(e){
+          Alert.alert(
+            '학번 오류 확인',
+            '학번을 다시 입력해주세요',
+            [
+              {text: '확인', onPress: () => {}, style: 'cancel'},             
+            ],
+            {
+              cancelable: true,
+              onDismiss: () => {},
+            },     
+          );
+          return;
+        }
+      }) 
+    }
+  };
  
   return (
     <View style={styles.mainBody}>
@@ -162,17 +185,17 @@ function LoginStudent({navigation}) {
             <TouchableOpacity
               style={styles.buttonStyle}
               activeOpacity={0.5}
-              onPress={(CheckLogin)}>
+              onPress={(handleSubmitPress)}>
+  
               <Text style={styles.buttonTextStyle}>로그인</Text>
             </TouchableOpacity>
-            {/* <Button title="Id/Password 추가" onPress={createStudent} />
-            <Button title="데이터 불러오기" onPress={readStudent} /> */}
+            <Button title="Id/Password 추가" onPress={addText} />
           </KeyboardAvoidingView>
         </View>
       </ScrollView>
     </View>
   );
-}
+};
 export default LoginStudent;
  
 const styles = StyleSheet.create({
