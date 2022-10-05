@@ -12,7 +12,7 @@ import {createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginMain from './Screens/Login/LoginMain';
 import LoginBus from './Screens/Login/LoginBus';
 import LoginStudent from './Screens/Login/LoginStudent';
-import CheckLogin from './Screens/Login/CheckLogin' ;
+import BusLocation from './Screens/ScreenMain/BusLocation' ;
 import HomeMain from './Screens/ScreenMain/HomeMain' ;
 import Busr from './Screens/ScreenMain/Busr' ;
 import BusMap from './Screens/ScreenMain/BusMap' ;
@@ -51,7 +51,7 @@ const Stack = createNativeStackNavigator();
 const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="LoginMain">
+      <Stack.Navigator initialRouteName="BusLocation">
         {/* SplashScreen which will come once for 5 Seconds */}      
         {/* Auth Navigator: Include Login and Signup */}
         <Stack.Screen
@@ -85,8 +85,8 @@ const App = () => {
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name="CheckLogin"
-          component={CheckLogin}
+          name="BusLocation"
+          component={BusLocation}
           options={{headerShown: false}}
         />
         
