@@ -15,7 +15,8 @@ import {
   KeyboardAvoidingView,
   Alert
 } from 'react-native';
- 
+import firestore from '@react-native-firebase/firestore';
+import { useNavigation } from '@react-navigation/native';
 
  
 
@@ -26,6 +27,8 @@ const LoginBus = ({navigation}) => {
   const [errortext, setErrortext] = useState('');
  
   const passwordInputRef = createRef();
+
+  const addCollection = firestore().collection('bus');
  
   const handleSubmitPress = () => {
     setErrortext('');
@@ -42,7 +45,29 @@ const LoginBus = ({navigation}) => {
             },       
        );
       return;
-    }   
+    }
+    else{
+      addCollection.doc(userId).get().then((doc)=>{
+        try{
+          if(doc.data().driver==false){
+            addCollection.doc(userId).update({driver:true});
+          }
+        }catch(e){
+          Alert.alert(
+            '버스 번호 오류 확인',
+            '버스번호를 다시 입력해주세요',
+            [
+              {text: '확인', onPress: () => {}, style: 'cancel'},             
+            ],
+            {
+              cancelable: true,
+              onDismiss: () => {},
+            },       
+           );
+          return;
+        }
+      })
+    }
   };
  
   return (
