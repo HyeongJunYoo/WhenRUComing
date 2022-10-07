@@ -1,35 +1,84 @@
 // Example of Splash, Login and Sign Up in React Native
 // https://aboutreact.com/react-native-login-and-signup/
-import * as React from 'react';
+import  React, { useCallback, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native'; 
+ 
 // Import React and Component
 
 
 
 import {
   StyleSheet,
-  TextInput,
   View,
   Text,
   ScrollView,
   Image,
-  Keyboard,
   TouchableOpacity,
   KeyboardAvoidingView,
   Alert,
-  Button,
-  IconCloseImg,
-  BackHandler
+  BackHandler,
+  
+  
 } from 'react-native';
 
-function GoToButton({screenName}) {
-  const navigation = useNavigation();
 
-  return <Button title={`${screenName}`} onPress={() => navigation.navigate(screenName)} />
-}
 
-const Homemain = () => { 
+const Homemain  = ({navigation}) => { 
+ var backstop=0;
+  
+  useEffect(() => {
+    const backAction = () => {
+      if (backstop ==0) {
+        
+        Alert.alert("앱 종료", "앱을 종료하시겠습니까?", [
+          {
+            text: "취소",
+            onPress: () => null,
+            style: "cancel"
+          },
+          { text: "확인", onPress: () => BackHandler.exitApp() }
+        ]);
+        return true;
+      } else {
+        backstop=0
+        return false;
+      }
+    };
+      
+    
+    
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, []);
+
+  
+  const Busr1 = () => {
+    if(true){
+      backstop=1;
+      {navigation.navigate("Busr")}
+      return ;
+    }
+  
+  };
+  const LoginStudent1 = () => { 
+    if(true){
+      backstop=1;
+    {navigation.navigate("LoginStudent")}
+    return ;}
+  };
+  const BusMap1 = () => { 
+    if(true){
+      backstop=1;
+    {navigation.navigate("BusMap")}
+    return;}
+  };
   return (
+    
     <View style={styles.mainBody}>  
       <ScrollView      
         contentContainerStyle={{
@@ -53,8 +102,9 @@ const Homemain = () => {
             <TouchableOpacity
               style={styles.buttonStyle}
               activeOpacity={0.5}   
+              onPress= {(Busr1)}
               > 
-              <GoToButton  screenName="Busr" />
+              
               <Text style={styles.buttonTextStyle}>버스 노선</Text>            
             </TouchableOpacity>
             
@@ -62,15 +112,17 @@ const Homemain = () => {
             <TouchableOpacity
               style={styles.buttonStyle}
               activeOpacity={0.5}
+              onPress= {(LoginStudent1)}
               >
-                 <GoToButton screenName="LoginStudent" />
+                 
               <Text style={styles.buttonTextStyle}>QR 카메라</Text>            
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.buttonStyle}
               activeOpacity={0.5}
+              onPress= {(BusMap1)}
               >
-                 <GoToButton screenName="BusMap" />
+                 
               <Text style={styles.buttonTextStyle}>버스표</Text>            
             </TouchableOpacity>
             <TouchableOpacity

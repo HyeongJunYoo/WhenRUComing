@@ -5,8 +5,10 @@
 // Import React and Component
 import React from 'react';
 // Import Navigators from React Navigation
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer,useRoute} from '@react-navigation/native';
 import {createNativeStackNavigator } from '@react-navigation/native-stack';
+
+
 
 //임포트할 화면들/
 import LoginMain from './Screens/Login/LoginMain';
@@ -15,8 +17,7 @@ import LoginStudent from './Screens/Login/LoginStudent';
 import HomeMain from './Screens/ScreenMain/HomeMain' ;
 import Busr from './Screens/ScreenMain/Busr' ;
 import BusMap from './Screens/ScreenMain/BusMap' ;
-
-
+;
 
 const Stack = createNativeStackNavigator();
 
@@ -29,7 +30,7 @@ const Stack = createNativeStackNavigator();
 //           component={loginmain}
 //           options={{headerShown: false}}
 //         />
-//            <Stack.Screen
+//            <Stack.Screennp
 //           name="loginbus"
 //           component={loginbus}
 //           options={{headerShown: false}}
@@ -48,6 +49,7 @@ const Stack = createNativeStackNavigator();
 
  
 const App = () => {
+ 
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="LoginMain">
@@ -56,7 +58,10 @@ const App = () => {
         <Stack.Screen
           name="LoginMain"
           component={LoginMain}
-          options={{headerShown: false}}
+          options={{headerShown: false,
+           
+          }}
+            
         />
            <Stack.Screen
           name="LoginBus"
@@ -66,12 +71,9 @@ const App = () => {
            <Stack.Screen
           name="LoginStudent"
           component={LoginStudent}
-          options={{headerShown: true}}
-        />
-        <Stack.Screen
-          name="HomeMain"
-          component={HomeMain}
-          options={{headerShown: false}}
+          options={{headerShown: true
+           
+          }}
         />
           <Stack.Screen
           name="Busr"
@@ -83,10 +85,22 @@ const App = () => {
           component={BusMap}
           options={{headerShown: false}}
         />
+        <Stack.Screen
+          name="HomeMain"
+          component={HomeMain}
+          options={{headerShown: false,
+            
+          
+            }}
+        />
+    
         
         {/* Navigation Drawer as a landing page */}
       </Stack.Navigator>
     </NavigationContainer>
+    
   );
+  
  };
+ 
 export default App;

@@ -19,13 +19,27 @@ import {
   IconCloseImg 
 } from 'react-native';
 
-function GoToButton({screenName}) {
+ function GoToButton({screenName}) {
   const navigation = useNavigation();
 
   return <Button  title={`${screenName}`} onPress={() => navigation.navigate(screenName)} />
-}
+ }
 
-const LoginMain = () => { 
+
+
+const LoginMain = ({navigation}) => { 
+  const HomeMain1 = () => {
+    if(true){
+      {navigation.navigate("HomeMain")}
+      return;  
+    }
+  
+  };
+  const LoginStudent1 = () => { 
+    if(true){
+    {navigation.navigate("LoginStudent")}
+    return;}
+  };
   return (
     <View style={styles.mainBody}>  
       <ScrollView      
@@ -50,8 +64,10 @@ const LoginMain = () => {
             <TouchableOpacity
               style={styles.buttonStyle}
               activeOpacity={0.5}   
+              onPress= {(HomeMain1)}
               > 
-              <GoToButton  screenName="LoginBus" />
+              
+           
               <Text style={styles.buttonTextStyle}>버스 기사 로그인</Text>            
             </TouchableOpacity>
             
@@ -59,8 +75,10 @@ const LoginMain = () => {
             <TouchableOpacity
               style={styles.buttonStyle}
               activeOpacity={0.5}
+              onPress= {(LoginStudent1)}
+             
               >
-                 <GoToButton screenName="LoginStudent" />
+                 
               <Text style={styles.buttonTextStyle}>학생 로그인</Text>            
             </TouchableOpacity>          
           </KeyboardAvoidingView>
