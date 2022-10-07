@@ -18,9 +18,6 @@ import {
 import firestore from '@react-native-firebase/firestore';
 import { useNavigation } from '@react-navigation/native';
 
- 
-
-
 const LoginBus = ({navigation}) => {
   const [userId, setuserId] = useState('');
   const [loading, setLoading] = useState(false);
@@ -123,7 +120,6 @@ const LoginBus = ({navigation}) => {
               onPress={handleSubmitPress}>
               <Text style={styles.buttonTextStyle}>로그인</Text>
             </TouchableOpacity>
-           
           </KeyboardAvoidingView>
         </View>
       </ScrollView>
