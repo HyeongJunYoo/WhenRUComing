@@ -15,6 +15,9 @@ import LoginStudent from './Screens/Login/LoginStudent';
 import HomeMain from './Screens/ScreenMain/HomeMain' ;
 import Busr from './Screens/ScreenMain/Busr' ;
 import BusMap from './Screens/ScreenMain/BusMap' ;
+//임포트 추가
+import Routes from './Screens/ScreenMain/Routes';
+import QRCodeScannerScreen from "./Screens/ScreenMain/QRCodeScannerScreen";
 
 
 
@@ -81,6 +84,17 @@ const App = () => {
           <Stack.Screen
           name="BusMap"
           component={BusMap}
+          options={{headerShown: false}}
+        />
+          <Stack.Screen
+          name="Routes"
+          component={Routes}
+          options={{headerShown: false}}
+        />
+
+        <Stack.Screen
+          name="QRCodeScannerScreen"
+          component={QRCodeScannerScreen}
           options={{headerShown: false}}
         />
         
