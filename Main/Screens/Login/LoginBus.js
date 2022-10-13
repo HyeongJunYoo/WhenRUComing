@@ -46,6 +46,8 @@ const LoginBus = ({navigation}) => {
     else{
       addCollection.doc(userId).get().then((doc)=>{
         try{
+          //navigation을 사용하여 BusLocation.js 페이지를 로드, param 값으로 busNumber: userId를 넘김
+          navigation.navigate("BusLocation", {busNumber: userId});
           if(doc.data().driver==false){
             addCollection.doc(userId).update({driver:true});
           }
