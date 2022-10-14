@@ -16,14 +16,14 @@ import {
   KeyboardAvoidingView,
   Alert,
   Button,
-  IconCloseImg 
+  IconCloseImg ,
+  ImageBackground
 } from 'react-native';
 
- function GoToButton({screenName}) {
-  const navigation = useNavigation();
-
-  return <Button  title={`${screenName}`} onPress={() => navigation.navigate(screenName)} />
- }
+const icons = {
+  bakc1: require('../../Image/backg.png'), //초록색 모서리
+  bakc2: require('../../Image/bak2.png') // 하늘색 모서리
+};
 
 
 
@@ -41,14 +41,29 @@ const LoginMain = ({navigation}) => {
     return;}
   };
   return (
-    <View style={styles.mainBody}>  
+    
+    <View style={styles.mainBody} 
+    >
+    <ImageBackground source={icons.bakc1} style={styles.bgImage}>
+    <TouchableOpacity
+              style={styles.buttonStyle2}
+              activeOpacity={0.5}   
+              onPress= {(HomeMain1)}
+              > 
+              
+           
+              <Text style={styles.buttonTextStyle2}>버스 기사 로그인</Text>            
+            </TouchableOpacity>
       <ScrollView      
+      
         contentContainerStyle={{
           flex: 1,
           justifyContent: 'center',
           alignContent: 'center',
         }}>
+          
         <View>
+        
           <KeyboardAvoidingView>
             <View style={{alignItems: 'center'}}>
               <Image
@@ -61,15 +76,7 @@ const LoginMain = ({navigation}) => {
                 }}
               />
             </View>
-            <TouchableOpacity
-              style={styles.buttonStyle}
-              activeOpacity={0.5}   
-              onPress= {(HomeMain1)}
-              > 
-              
-           
-              <Text style={styles.buttonTextStyle}>버스 기사 로그인</Text>            
-            </TouchableOpacity>
+        
             
           
             <TouchableOpacity
@@ -83,7 +90,20 @@ const LoginMain = ({navigation}) => {
             </TouchableOpacity>          
           </KeyboardAvoidingView>
         </View>
+        <View style={{alignItems: 'center'}}>
+              <Image
+                source={require('../../Image/intro_logo_new.png')}
+                style={{
+                  width: '50%',
+                  height: 100,
+                  resizeMode: 'contain',
+                  margin: 30,
+                }}
+              />
+            </View>
+            
       </ScrollView>
+      </ImageBackground>
     </View>
   );
 };
@@ -104,6 +124,10 @@ const styles = StyleSheet.create({
     marginRight: 35,
     margin: 10,
   },
+  bgImage: {
+    width: '100%', 
+    height: '100%'
+  },
   buttonStyle: {
     backgroundColor: '#7DE24E',
     borderWidth: 0,
@@ -117,10 +141,30 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 25,
   },
+  buttonStyle2: {
+    backgroundColor: '#7DE24E',
+    borderWidth: 0,
+    color: '#FFFFFF',
+    borderColor: '#7DE24E',
+    height: 32,
+    width: 100,
+    alignItems: 'center',
+    borderRadius: 30,
+    marginLeft: "75%",
+    marginRight: 35,
+    marginTop: 10,
+    marginBottom: 25,
+    
+  },
   buttonTextStyle: {
     color: '#000000',
     paddingVertical: 10,
     fontSize: 16,
+  },
+  buttonTextStyle2: {
+    color: '#000000',
+    paddingVertical: 10,
+    fontSize: 10,
   },
   inputStyle: {
     flex: 1,

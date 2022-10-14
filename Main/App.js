@@ -66,12 +66,12 @@ const App = () => {
            <Stack.Screen
           name="LoginBus"
           component={LoginBus}
-          options={{headerShown: true}}
+          options={{headerShown: false}}
         />
            <Stack.Screen
           name="LoginStudent"
           component={LoginStudent}
-          options={{headerShown: true
+          options={{headerShown: false
            
           }}
         />

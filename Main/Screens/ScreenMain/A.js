@@ -6,12 +6,16 @@ import {
   Text,
   StyleSheet,
   Button,
+  Icon,
+  RefreshControl
   
 } from 'react-native';
 import BusMap from './BusMap';
-
+import {useState} from 'react';
 
 export default function A() {
+
+  // 지점 별 거리 계산 식
   const Bus1 = (X1,Y1,X2,Y2) => {
     var bus = Math.pow(X2-X1,2) + Math.pow(Y2-Y1,2)
     var busResult = Math.sqrt(bus)*100
@@ -23,6 +27,8 @@ export default function A() {
     return busResult;
   };
 
+
+  //아마도 버스 랑 도착지점 까지 남은 거리 계산할때 쓸듯? 아직 수정안함
   const Bus2 = (X1,Y1,X2,Y2) => {
     //X1 ,Y1 시작 좌표 
     var bus = Math.pow(X2-X1,2) + Math.pow(Y2-Y1,2)
@@ -42,6 +48,7 @@ export default function A() {
    //var bus = Bus1(37.270481,127.126427,37.273563,127.129148);
 
 
+   //버스1 좌표
    var BusX
    var BusY
    // 각 지점 좌표값===================================================================
@@ -93,72 +100,102 @@ export default function A() {
    var SaBY = 127.130196 //샬룸관 -> 본관 길 꺽이는 곳 Y좌표
 //========================================================================================
 
-//각 지점별 도착 확인 변수====================
+//각 지점별 도착 채크 변수====================
 var IeRoun=0
 var BRoun=0
 var InRound=0
 var GiRound=0
 var SaRound=0
 //==========================================
-//각 지점별 도착 확인 영역
-//이공관 도착 확인 영역
+//===============================
+//도착지점 영역안에 존재여부 채크 변수
+var IeRounChek=0
+var BRounChek=0
+var InRoundChek=0
+var GiRoundChek=0
+var SaRoundChek=0 
+
+//=========================
+//각 지점별 도착  영역
+//이공관 도착  영역
 var IeRound1X =37.276711
 var IeRound1Y =127.134412
 var IeRound2X= 37.276645
 var IeRound2Y= 127.134513
 //==============================
-//본관 도착 확인 영역
+//본관 도착  영역
 var BRound1X=37.275775
 var BRound1Y=127.133434
 var BRound2X=37.275697
 var BRound2Y=127.133339
 ///////////////////////////////////
-//인문사회관 도착확인 영역
+//인문사회관 도착 영역
 var InRound1X=37.275132
 var InRound1Y=127.131026
 var InRound2X=37.275012
 var InRound2Y=127.130917
 //==============================
-//기흥역 도착 확인 영역
+//기흥역 도착  영역
 var GiRound1X=37.274633
 var GiRound1Y=127.116078
 var GiRound2X=37.274457
 var GiRound2Y=127.116049
 //================================
-//샬룸관 도착확인 영역
+//샬룸관 도착 영역
 var SaRound1X=37.274694
 var SaRound1Y=127.130234
 var SaRound2X=37.274491
 var SaRound2Y=127.130339
 //===============================
 
+
+//각 확인 영역마다 일정 '시간(분)동안 한번 실행하면 대기하도록 설정할것'
+//즉 각 if문을 따로 돌려야 한다 if문 실행하고 대기하는동안 묵여있으면 안된다
+//인문관 도착 채크영역
 if(IeRound2X<BusX<IeRound1X && IeRound1Y<BusY< IeRound2Y){
   IeRoun =1;
+  IeRounChek=1;
+}else{
+  IeRounChek=0;
 }
 
+//본관 도착 채크 영역
+if(BRound2X<BusX<BRound1X && BRound2Y<BusY< BRound1Y){
+  BRoun =1;
+  BRounChek=1;
+}else{
+  BRounChek=0;
+}
+
+//인문사회관 도착 채크 영역
+if(InRound2X<BusX<InRound1X && InRound2Y<BusY< InRound1Y){
+  InRound =1;
+  InRoundChek=1;
+}else{
+  InRoundChek=0;
+}
+//기흥역 도착 채크 영역
+if(GiRound2X <BusX<GiRound1X  && GiRound2Y <BusY< GiRound1Y ){
+  GiRound =1;
+  GiRoundChek=1;
+}else{
+  GiRoundChek=0;
+}
+//샬룸관 도착 채크 영역
+if(SaRound2X  <BusX<SaRound1X   && SaRound1Y  <BusY< SaRound2Y  ){
+  SaRound =1;
+  SaRoundChek=1;
+  
+}else{
+  SaRoundChek=0;
+}
 //=========================================
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//
-
-   var IeB = Bus1(IeX, IeY, BX, BY) // 이공관 -> 본관
+//===========================
+//각 도착지점 별 도착 예정시간
+   //var IeB = Bus1(IeX, IeY, BX, BY) // 이공관 -> 본관
 
    var BIn = Bus1(BX, BY, BX_1, BY_1)+Bus1(BX_1, BY_1,BX_2, BY_2)+
    Bus1(BX_2, BY_2,InX, InY)//본관 -> 인문
@@ -176,6 +213,26 @@ if(IeRound2X<BusX<IeRound1X && IeRound1Y<BusY< IeRound2Y){
    Bus1(BX_2, BY_2,BX_1, BY_1)+Bus1(BX_1, BY_1,BX, BY)//샬룸->본관
 
    var BIe =Bus1(BX, BY,IeX, IeY)//본관->이공
+//================================
+//버스  도착 남은 시간 표시
+//================================
+//자동 새로 고침을 이용하여 앱 화면 새로 갱신
+
+const [number , setNumber] = useState(Bus1(IeX, IeY, BX, BY))
+
+const IeB = () =>{
+  if(number>10){
+    setNumber(number-10)
+  }else{
+  setNumber(number+1)}
+}
+const downCount = () =>{
+  setNumber(number  - 1)
+}
+
+
+
+
 
     return (
       <View style={styles.rumain}>
@@ -195,18 +252,29 @@ if(IeRound2X<BusX<IeRound1X && IeRound1Y<BusY< IeRound2Y){
         <View style={styles.textstyle}>
           
           <Text> {(() => {
-                    if (0) return "My name is Merry";
-                    else if (1) return "My name is Mary";
+                    if (BRoun==1) return "버스 도착";                   
                     else return "본관 도착까지 약: "+IeB+" 분";
                 })()}
                 본관 도착까지 약: {IeB}분</Text></View>
-        <View style={styles.textstyle}><Text>인문 도착까지 약: {BIn}분</Text></View>
+        <View style={styles.textstyle}>
+        <Text> {(() => {
+                    if (number<1){  return "초기화";        }           
+                    else return "본관 도착까지 약: "+number+" 분";
+                })()}
+                </Text></View>
+          
         <View style={styles.textstyle}><Text>기흥 도착까지 약: {InGi}분</Text></View>
         <View style={styles.textstyle}><Text>샬름 도착까지 약: {GiSa}분</Text></View>
         <View style={styles.textstyle}><Text>본관 도착까지 약: {SaB}분</Text></View>
-        <View style={styles.textstyle}><Text>이공 도착까지 약: {BIe}분</Text></View>
+        <View style={styles.textstyle}>
+          <Button title="새로고침" onPress={       
+           IeB 
+               }></Button>
+          
+          <Text>이공 도착까지 약: {BIe}분</Text></View>
 
 
+       
         </View>
       </View>
     );

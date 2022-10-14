@@ -17,11 +17,16 @@ import {
   KeyboardAvoidingView,
   Alert,
   BackHandler,
+  Icon,
+ImageBackground
   
   
 } from 'react-native';
 
-
+const icons = {
+  bakc1: require('../../Image/backg.png'), //초록색 모서리
+  bakc2: require('../../Image/bak2.png') // 하늘색 모서리
+};
 
 const Homemain  = ({navigation}) => { 
  var backstop=0;
@@ -80,6 +85,7 @@ const Homemain  = ({navigation}) => {
   return (
     
     <View style={styles.mainBody}>  
+    <ImageBackground source={icons.bakc1} style={styles.bgImage}>
       <ScrollView      
         contentContainerStyle={{
           flex: 1,
@@ -96,6 +102,7 @@ const Homemain  = ({navigation}) => {
                   height: 100,
                   resizeMode: 'contain',
                   margin: 30,
+                  marginTop: "35%" 
                 }}
               />
             </View>
@@ -117,16 +124,17 @@ const Homemain  = ({navigation}) => {
                  
               <Text style={styles.buttonTextStyle}>QR 카메라</Text>            
             </TouchableOpacity>
+            <View style={styles.rumain}>          
             <TouchableOpacity
-              style={styles.buttonStyle}
+              style={styles.buttonStyle3}
               activeOpacity={0.5}
               onPress= {(BusMap1)}
               >
                  
-              <Text style={styles.buttonTextStyle}>버스표</Text>            
+              <Text style={styles.buttonTextStyle2}>버스 시간표</Text>            
             </TouchableOpacity>
             <TouchableOpacity
-              style={styles.buttonStyle}
+              style={styles.buttonStyle2}
               activeOpacity={0.5}
               onPress={()=>{
                 Alert.alert(
@@ -147,11 +155,13 @@ const Homemain  = ({navigation}) => {
                 );
               }}
               >                
-              <Text style={styles.buttonTextStyle}>앱 종료</Text>            
-            </TouchableOpacity>                    
+              <Text style={styles.buttonTextStyle2}>앱 종료</Text>            
+            </TouchableOpacity>   
+            </View>                 
           </KeyboardAvoidingView>
         </View>
       </ScrollView>
+      </ImageBackground>
     </View>
   );
 };
@@ -163,6 +173,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#FFFFFF',
     alignContent: 'center',
+  },
+  rumain: {
+    flex: 1,
+    flexDirection: 'row',
+    marginTop: "30%"                
   },
   SectionStyle: {
     flexDirection: 'row',
@@ -185,10 +200,43 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 25,
   },
+  buttonStyle2: {
+    backgroundColor: '#7DE24E',
+    borderWidth: 0,
+    color: '#FFFFFF',
+    borderColor: '#7DE24E',
+    height: 32,
+    width: 100,
+    alignItems: 'center',
+    borderRadius: 30,
+    marginLeft: "47%",
+   
+  
+   
+  },
+  buttonStyle3: {
+    backgroundColor: '#7DE24E',
+    borderWidth: 0,
+    color: '#FFFFFF',
+    borderColor: '#7DE24E',
+    height: 32,
+    width: 100,
+    alignItems: 'center',
+    borderRadius: 30,
+    marginLeft: "1%",
+    marginRight: 10,
+   
+    marginBottom: 25,
+  },
   buttonTextStyle: {
     color: '#000000',
     paddingVertical: 10,
     fontSize: 16,
+  },
+  buttonTextStyle2: {
+    color: '#000000',
+    paddingVertical: 10,
+    fontSize: 10,
   },
   inputStyle: {
     flex: 1,
@@ -211,5 +259,9 @@ const styles = StyleSheet.create({
     color: 'red',
     textAlign: 'center',
     fontSize: 14,
+  },
+  bgImage: {
+    width: '100%', 
+    height: '100%'
   },
 });

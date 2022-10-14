@@ -14,7 +14,8 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   Alert,
-  Button
+  Button,
+  ImageBackground
 } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 import { useNavigation } from '@react-navigation/native';
@@ -24,7 +25,10 @@ function GoToButton({screenName}) {
 
   return <Button title={`${screenName}`} onPress={() => navigation.navigate(screenName)} />
 }
-
+const icons = {
+  bakc1: require('../../Image/backg.png'), //초록색 모서리
+  bakc2: require('../../Image/bak2.png') // 하늘색 모서리
+};
 
 function LoginStudent({navigation}) {
   const [userId, setUserId] = useState('');
@@ -88,7 +92,7 @@ function LoginStudent({navigation}) {
  
   return (
     <View style={styles.mainBody}>
-      
+      <ImageBackground source={icons.bakc1} style={styles.bgImage}>
       <ScrollView
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={{
@@ -96,7 +100,9 @@ function LoginStudent({navigation}) {
           justifyContent: 'center',
           alignContent: 'center',
         }}>
+          
         <View>
+        
           <KeyboardAvoidingView enabled>
             <View style={{alignItems: 'center'}}>
               <Image
@@ -159,8 +165,11 @@ function LoginStudent({navigation}) {
             </TouchableOpacity>
             <Button title="Id/Password 추가" onPress={addText} />
           </KeyboardAvoidingView>
+          
         </View>
+       
       </ScrollView>
+      </ImageBackground>
     </View>
   );
 };
@@ -172,6 +181,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#FFFFFF',
     alignContent: 'center',
+  },
+  bgImage: {
+    width: '100%', 
+    height: '100%'
   },
   SectionStyle: {
     flexDirection: 'row',
