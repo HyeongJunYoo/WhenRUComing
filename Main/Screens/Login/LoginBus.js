@@ -13,7 +13,8 @@ import {
   Keyboard,
   TouchableOpacity,
   KeyboardAvoidingView,
-  Alert
+  Alert,
+  ImageBackground
 } from 'react-native';
  
 
@@ -26,7 +27,10 @@ const LoginBus = ({navigation}) => {
   const [errortext, setErrortext] = useState('');
  
   const passwordInputRef = createRef();
- 
+  const icons = {
+    bakc1: require('../../Image/backg.png'), //초록색 모서리
+    bakc2: require('../../Image/bak2.png') // 하늘색 모서리
+  };
   const handleSubmitPress = () => {
     setErrortext('');
     if (!userId) {
@@ -47,7 +51,7 @@ const LoginBus = ({navigation}) => {
  
   return (
     <View style={styles.mainBody}>
-     
+     <ImageBackground source={icons.bakc1} style={styles.bgImage}>
       <ScrollView
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={{
@@ -102,6 +106,7 @@ const LoginBus = ({navigation}) => {
           </KeyboardAvoidingView>
         </View>
       </ScrollView>
+      </ImageBackground>
     </View>
   );
 };
@@ -121,6 +126,11 @@ const styles = StyleSheet.create({
     marginLeft: 35,
     marginRight: 35,
     margin: 10,
+  },
+
+  bgImage: {
+    width: '100%', 
+    height: '100%'
   },
   buttonStyle: {
     backgroundColor: '#7DE24E',

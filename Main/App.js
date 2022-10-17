@@ -19,6 +19,10 @@ import Busr from './Screens/ScreenMain/Busr' ;
 import BusMap from './Screens/ScreenMain/BusMap' ;
 ;
 
+//임포트 추가
+import Routes from './Screens/ScreenMain/Routes';
+import QRCodeScannerScreen from "./Screens/ScreenMain/QRCodeScannerScreen";
+
 const Stack = createNativeStackNavigator();
 
 // const Auth = () => {
@@ -93,7 +97,17 @@ const App = () => {
           
             }}
         />
-    
+          <Stack.Screen
+          name="Routes"
+          component={Routes}
+          options={{headerShown: false}}
+        />
+
+        <Stack.Screen
+          name="QRCodeScannerScreen"
+          component={QRCodeScannerScreen}
+          options={{headerShown: false}}
+        />
         
         {/* Navigation Drawer as a landing page */}
       </Stack.Navigator>

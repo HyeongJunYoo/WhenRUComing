@@ -35,6 +35,13 @@ const LoginMain = ({navigation}) => {
     }
   
   };
+  const LoginBus = () => {
+    if(true){
+      {navigation.navigate("LoginBus")}
+      return;  
+    }
+  
+  };
   const LoginStudent1 = () => { 
     if(true){
     {navigation.navigate("LoginStudent")}
@@ -48,7 +55,7 @@ const LoginMain = ({navigation}) => {
     <TouchableOpacity
               style={styles.buttonStyle2}
               activeOpacity={0.5}   
-              onPress= {(HomeMain1)}
+              onPress= {(LoginBus)}
               > 
               
            
