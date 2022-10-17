@@ -1,25 +1,20 @@
 // Example of Splash, Login and Sign Up in React Native
 // https://aboutreact.com/react-native-login-and-signup/
 
- 
 // Import React and Component
 import React from 'react';
 // Import Navigators from React Navigation
-import {NavigationContainer,useRoute} from '@react-navigation/native';
-import {createNativeStackNavigator } from '@react-navigation/native-stack';
-
-
+import {NavigationContainer, useRoute} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 //임포트할 화면들/
 import LoginMain from './Screens/Login/LoginMain';
 import LoginBus from './Screens/Login/LoginBus';
 import LoginStudent from './Screens/Login/LoginStudent';
-import BusLocation from './Screens/ScreenMain/BusLocation' ;
-import HomeMain from './Screens/ScreenMain/HomeMain' ;
-import Busr from './Screens/ScreenMain/Busr' ;
-import BusMap from './Screens/ScreenMain/BusMap' ;
-;
-
+import BusLocation from './Screens/ScreenMain/BusLocation';
+import HomeMain from './Screens/ScreenMain/HomeMain';
+import Busr from './Screens/ScreenMain/Busr';
+import BusMap from './Screens/ScreenMain/BusMap';
 const Stack = createNativeStackNavigator();
 
 // const Auth = () => {
@@ -41,47 +36,39 @@ const Stack = createNativeStackNavigator();
 //           component={LoginStudent}
 //           options={{headerShown: false}}
 //         />
-       
+
 //       </Stack.Navigator>
 //     </NavigationContainer>
 //   );
 //  };
 
-
- 
 const App = () => {
- 
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="LoginMain">
-        {/* SplashScreen which will come once for 5 Seconds */}      
+        {/* SplashScreen which will come once for 5 Seconds */}
         {/* Auth Navigator: Include Login and Signup */}
         <Stack.Screen
           name="LoginMain"
           component={LoginMain}
-          options={{headerShown: false,
-           
-          }}
-            
+          options={{headerShown: false}}
         />
-           <Stack.Screen
+        <Stack.Screen
           name="LoginBus"
           component={LoginBus}
           options={{headerShown: false}}
         />
-           <Stack.Screen
+        <Stack.Screen
           name="LoginStudent"
           component={LoginStudent}
-          options={{headerShown: false
-           
-          }}
+          options={{headerShown: false}}
         />
-          <Stack.Screen
+        <Stack.Screen
           name="Busr"
           component={Busr}
           options={{headerShown: false}}
         />
-          <Stack.Screen
+        <Stack.Screen
           name="BusMap"
           component={BusMap}
           options={{headerShown: false}}
@@ -89,24 +76,19 @@ const App = () => {
         <Stack.Screen
           name="HomeMain"
           component={HomeMain}
-          options={{headerShown: false,
-            
-          
-            }}
+          options={{headerShown: false}}
         />
-    
+
         <Stack.Screen
           name="BusLocation"
           component={BusLocation}
           options={{headerShown: false}}
         />
-        
+
         {/* Navigation Drawer as a landing page */}
       </Stack.Navigator>
     </NavigationContainer>
-    
   );
-  
- };
- 
+};
+
 export default App;
