@@ -1,36 +1,91 @@
 // Example of Splash, Login and Sign Up in React Native
 // https://aboutreact.com/react-native-login-and-signup/
-import * as React from 'react';
+import  React, { useCallback, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native'; 
+ 
 // Import React and Component
 
 
 
 import {
   StyleSheet,
-  TextInput,
   View,
   Text,
   ScrollView,
   Image,
-  Keyboard,
   TouchableOpacity,
   KeyboardAvoidingView,
   Alert,
-  Button,
-  IconCloseImg,
-  BackHandler
+  BackHandler,
+  Icon,
+ImageBackground
+  
+  
 } from 'react-native';
 
-function GoToButton({screenName}) {
-  const navigation = useNavigation();
+const icons = {
+  bakc1: require('../../Image/backg.png'), //초록색 모서리
+  bakc2: require('../../Image/bak2.png') // 하늘색 모서리
+};
 
-  return <Button title={`${screenName}`} onPress={() => navigation.navigate(screenName)} />
-}
+const Homemain  = ({navigation}) => { 
+ var backstop=0;
+  
+  useEffect(() => {
+    const backAction = () => {
+      if (backstop ==0) {
+        
+        Alert.alert("앱 종료", "앱을 종료하시겠습니까?", [
+          {
+            text: "취소",
+            onPress: () => null,
+            style: "cancel"
+          },
+          { text: "확인", onPress: () => BackHandler.exitApp() }
+        ]);
+        return true;
+      } else {
+        backstop=0
+        return false;
+      }
+    };
+      
+    
+    
 
-const Homemain = () => { 
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, []);
+
+  
+  const Busr1 = () => {
+    if(true){
+      backstop=1;
+      {navigation.navigate("Busr")}
+      return ;
+    }
+  
+  };
+  const LoginStudent1 = () => { 
+    if(true){
+      backstop=1;
+    {navigation.navigate("LoginStudent")}
+    return ;}
+  };
+  const BusMap1 = () => { 
+    if(true){
+      backstop=1;
+    {navigation.navigate("BusMap")}
+    return;}
+  };
   return (
+    
     <View style={styles.mainBody}>  
+    <ImageBackground source={icons.bakc1} style={styles.bgImage}>
       <ScrollView      
         contentContainerStyle={{
           flex: 1,
@@ -47,14 +102,16 @@ const Homemain = () => {
                   height: 100,
                   resizeMode: 'contain',
                   margin: 30,
+                  marginTop: "35%" 
                 }}
               />
             </View>
             <TouchableOpacity
               style={styles.buttonStyle}
               activeOpacity={0.5}   
+              onPress= {(Busr1)}
               > 
-              <GoToButton  screenName="Busr" />
+              
               <Text style={styles.buttonTextStyle}>버스 노선</Text>            
             </TouchableOpacity>
             
@@ -62,19 +119,22 @@ const Homemain = () => {
             <TouchableOpacity
               style={styles.buttonStyle}
               activeOpacity={0.5}
+              onPress= {(LoginStudent1)}
               >
-                 <GoToButton screenName="LoginStudent" />
+                 
               <Text style={styles.buttonTextStyle}>QR 카메라</Text>            
             </TouchableOpacity>
+            <View style={styles.rumain}>          
             <TouchableOpacity
-              style={styles.buttonStyle}
+              style={styles.buttonStyle3}
               activeOpacity={0.5}
+              onPress= {(BusMap1)}
               >
-                 <GoToButton screenName="BusMap" />
-              <Text style={styles.buttonTextStyle}>버스표</Text>            
+                 
+              <Text style={styles.buttonTextStyle2}>버스 시간표</Text>            
             </TouchableOpacity>
             <TouchableOpacity
-              style={styles.buttonStyle}
+              style={styles.buttonStyle2}
               activeOpacity={0.5}
               onPress={()=>{
                 Alert.alert(
@@ -95,11 +155,13 @@ const Homemain = () => {
                 );
               }}
               >                
-              <Text style={styles.buttonTextStyle}>앱 종료</Text>            
-            </TouchableOpacity>                    
+              <Text style={styles.buttonTextStyle2}>앱 종료</Text>            
+            </TouchableOpacity>   
+            </View>                 
           </KeyboardAvoidingView>
         </View>
       </ScrollView>
+      </ImageBackground>
     </View>
   );
 };
@@ -111,6 +173,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#FFFFFF',
     alignContent: 'center',
+  },
+  rumain: {
+    flex: 1,
+    flexDirection: 'row',
+    marginTop: "30%"                
   },
   SectionStyle: {
     flexDirection: 'row',
@@ -133,10 +200,43 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 25,
   },
+  buttonStyle2: {
+    backgroundColor: '#7DE24E',
+    borderWidth: 0,
+    color: '#FFFFFF',
+    borderColor: '#7DE24E',
+    height: 32,
+    width: 100,
+    alignItems: 'center',
+    borderRadius: 30,
+    marginLeft: "47%",
+   
+  
+   
+  },
+  buttonStyle3: {
+    backgroundColor: '#7DE24E',
+    borderWidth: 0,
+    color: '#FFFFFF',
+    borderColor: '#7DE24E',
+    height: 32,
+    width: 100,
+    alignItems: 'center',
+    borderRadius: 30,
+    marginLeft: "1%",
+    marginRight: 10,
+   
+    marginBottom: 25,
+  },
   buttonTextStyle: {
     color: '#000000',
     paddingVertical: 10,
     fontSize: 16,
+  },
+  buttonTextStyle2: {
+    color: '#000000',
+    paddingVertical: 10,
+    fontSize: 10,
   },
   inputStyle: {
     flex: 1,
@@ -159,5 +259,9 @@ const styles = StyleSheet.create({
     color: 'red',
     textAlign: 'center',
     fontSize: 14,
+  },
+  bgImage: {
+    width: '100%', 
+    height: '100%'
   },
 });
