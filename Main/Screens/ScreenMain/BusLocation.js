@@ -29,6 +29,9 @@ const BusLocation = ({route}) => {
         setLatitude(JSON.stringify(position.coords.latitude));
         setLogitude(JSON.stringify(position.coords.longitude));
         console.log('실행중');
+        // bus.doc(busNumber).onSnapshot(doc => {
+        //   console.log('Current data: ', doc.data());
+        // });
         //좌표값이 존재할 경우 DB 업데이트
         if (latitude && longitude) {
           bus.doc(busNumber).update({latitude: latitude});
