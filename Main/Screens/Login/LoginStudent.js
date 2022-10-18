@@ -195,7 +195,6 @@ function LoginStudent({navigation}) {
   
               <Text style={styles.buttonTextStyle}>로그인</Text>
             </TouchableOpacity>
-            <Button title="Id/Password 추가" onPress={addText} />
           </KeyboardAvoidingView>
           
         </View>

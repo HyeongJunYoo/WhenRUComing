@@ -25,13 +25,13 @@ const icons = {
   bakc2: require('../../Image/bak2.png'), // 하늘색 모서리
 };
 
-const LoginMain = ({navigation}) => {
+
+
+const LoginMain = ({navigation}) => { 
   const HomeMain1 = () => {
-    if (true) {
-      {
-        navigation.navigate('LoginBus');
-      }
-      return;
+    if(true){
+      {navigation.navigate("HomeMain")}
+      return;  
     }
   
   };
@@ -42,13 +42,10 @@ const LoginMain = ({navigation}) => {
     }
   
   };
-  const LoginStudent1 = () => {
-    if (true) {
-      {
-        navigation.navigate('LoginStudent');
-      }
-      return;
-    }
+  const LoginStudent1 = () => { 
+    if(true){
+    {navigation.navigate("LoginStudent")}
+    return;}
   };
   return (
     
@@ -135,8 +132,8 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   bgImage: {
-    width: '100%',
-    height: '100%',
+    width: '100%', 
+    height: '100%'
   },
   buttonStyle: {
     backgroundColor: '#7DE24E',
@@ -150,6 +147,21 @@ const styles = StyleSheet.create({
     marginRight: 35,
     marginTop: 20,
     marginBottom: 25,
+  },
+  buttonStyle2: {
+    backgroundColor: '#7DE24E',
+    borderWidth: 0,
+    color: '#FFFFFF',
+    borderColor: '#7DE24E',
+    height: 32,
+    width: 100,
+    alignItems: 'center',
+    borderRadius: 30,
+    marginLeft: "75%",
+    marginRight: 35,
+    marginTop: 10,
+    marginBottom: 25,
+    
   },
   buttonStyle2: {
     backgroundColor: '#7DE24E',

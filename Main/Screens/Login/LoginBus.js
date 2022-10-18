@@ -16,12 +16,9 @@ import {
   Alert,
   ImageBackground
 } from 'react-native';
-import firestore from '@react-native-firebase/firestore';
-import { useNavigation } from '@react-navigation/native';
+import firestore from '@react-native-firebase/firestore'; 
 
- 
-
-
+const addCollection = firestore().collection('bus');
 const LoginBus = ({navigation}) => {
   const [userId, setuserId] = useState('');
   const [loading, setLoading] = useState(false);

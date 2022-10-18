@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
  
 // Import React and Component
 
-
+import firestore from '@react-native-firebase/firestore';
 
 import {
   StyleSheet,
