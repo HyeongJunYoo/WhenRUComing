@@ -33,6 +33,14 @@ const LoginMain = ({navigation}) => {
       }
       return;
     }
+  
+  };
+  const LoginBus = () => {
+    if(true){
+      {navigation.navigate("LoginBus")}
+      return;  
+    }
+  
   };
   const LoginStudent1 = () => {
     if (true) {
@@ -43,54 +51,68 @@ const LoginMain = ({navigation}) => {
     }
   };
   return (
-    <View style={styles.mainBody}>
-      <ImageBackground source={icons.bakc1} style={styles.bgImage}>
-        <TouchableOpacity
-          style={styles.buttonStyle2}
-          activeOpacity={0.5}
-          onPress={HomeMain1}>
-          <Text style={styles.buttonTextStyle2}>버스 기사 로그인</Text>
-        </TouchableOpacity>
-        <ScrollView
-          contentContainerStyle={{
-            flex: 1,
-            justifyContent: 'center',
-            alignContent: 'center',
-          }}>
-          <View>
-            <KeyboardAvoidingView>
-              <View style={{alignItems: 'center'}}>
-                <Image
-                  source={require('../../Image/aboutreact.png')}
-                  style={{
-                    width: '50%',
-                    height: 100,
-                    resizeMode: 'contain',
-                    margin: 30,
-                  }}
-                />
-              </View>
-
-              <TouchableOpacity
-                style={styles.buttonStyle}
-                activeOpacity={0.5}
-                onPress={LoginStudent1}>
-                <Text style={styles.buttonTextStyle}>학생 로그인</Text>
-              </TouchableOpacity>
-            </KeyboardAvoidingView>
-          </View>
-          <View style={{alignItems: 'center'}}>
-            <Image
-              source={require('../../Image/intro_logo_new.png')}
-              style={{
-                width: '50%',
-                height: 100,
-                resizeMode: 'contain',
-                margin: 30,
-              }}
-            />
-          </View>
-        </ScrollView>
+    
+    <View style={styles.mainBody} 
+    >
+    <ImageBackground source={icons.bakc1} style={styles.bgImage}>
+    <TouchableOpacity
+              style={styles.buttonStyle2}
+              activeOpacity={0.5}   
+              onPress= {(LoginBus)}
+              > 
+              
+           
+              <Text style={styles.buttonTextStyle2}>버스 기사 로그인</Text>            
+            </TouchableOpacity>
+      <ScrollView      
+      
+        contentContainerStyle={{
+          flex: 1,
+          justifyContent: 'center',
+          alignContent: 'center',
+        }}>
+          
+        <View>
+        
+          <KeyboardAvoidingView>
+            <View style={{alignItems: 'center'}}>
+              <Image
+                source={require('../../Image/aboutreact.png')}
+                style={{
+                  width: '50%',
+                  height: 100,
+                  resizeMode: 'contain',
+                  margin: 30,
+                }}
+              />
+            </View>
+        
+            
+          
+            <TouchableOpacity
+              style={styles.buttonStyle}
+              activeOpacity={0.5}
+              onPress= {(LoginStudent1)}
+             
+              >
+                 
+              <Text style={styles.buttonTextStyle}>학생 로그인</Text>            
+            </TouchableOpacity>          
+          </KeyboardAvoidingView>
+        </View>
+        <View style={{alignItems: 'center'}}>
+              <Image
+                source={require('../../Image/intro_logo_new.png')}
+                style={{
+                  width: '50%',
+                  height: 100,
+                  resizeMode: 'contain',
+                  margin: 30,
+                }}
+              />
+            </View>
+            
+      </ScrollView>
       </ImageBackground>
     </View>
   );

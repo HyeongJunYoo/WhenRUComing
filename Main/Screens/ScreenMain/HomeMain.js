@@ -82,6 +82,13 @@ const Homemain  = ({navigation}) => {
     {navigation.navigate("BusMap")}
     return;}
   };
+
+  const QRCodeScannerScreen1 = () => { 
+    if(true){
+      backstop=1;
+    {navigation.navigate("QRCodeScannerScreen")} //현재 QR 코드 스캔시 TypeError: JSON.stringify cannot serialize cyclic structures. 경고창이 뜸
+    return ;}
+  };
   return (
     
     <View style={styles.mainBody}>  
@@ -119,7 +126,7 @@ const Homemain  = ({navigation}) => {
             <TouchableOpacity
               style={styles.buttonStyle}
               activeOpacity={0.5}
-              onPress= {(LoginStudent1)}
+              onPress= {(QRCodeScannerScreen1)}
               >
                  
               <Text style={styles.buttonTextStyle}>QR 카메라</Text>            
