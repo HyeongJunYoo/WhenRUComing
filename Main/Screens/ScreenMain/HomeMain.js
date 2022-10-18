@@ -131,6 +131,25 @@ const Homemain  = ({navigation}) => {
                  
               <Text style={styles.buttonTextStyle}>QR 카메라</Text>            
             </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.buttonStyle}// 임시로 버튼 생성하였습니다 -홍민재
+              activeOpacity={0.5}
+              onPress= {()=>{
+                const addCollection = firestore().collection('bus');
+                return (
+                addCollection.doc("1234").get().then((doc)=>{
+                  try{if(doc.data().student_NUM<45){
+                    const number=doc.data().student_NUM;
+                    addCollection.doc("1234").update({student_NUM:number+1});
+                      }
+                    }catch(e){}
+                  })
+                );
+              }}>
+              <Text style={styles.buttonTextStyle}>탑승</Text>   
+            </TouchableOpacity>
+
             <View style={styles.rumain}>          
             <TouchableOpacity
               style={styles.buttonStyle3}
@@ -163,7 +182,7 @@ const Homemain  = ({navigation}) => {
               }}
               >                
               <Text style={styles.buttonTextStyle2}>앱 종료</Text>            
-            </TouchableOpacity>   
+            </TouchableOpacity>
             </View>                 
           </KeyboardAvoidingView>
         </View>
@@ -184,7 +203,7 @@ const styles = StyleSheet.create({
   rumain: {
     flex: 1,
     flexDirection: 'row',
-    marginTop: "30%"                
+    marginTop: "10%"                
   },
   SectionStyle: {
     flexDirection: 'row',
