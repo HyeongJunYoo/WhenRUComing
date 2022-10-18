@@ -26,16 +26,14 @@ const BusLocation = ({route}) => {
     const watchId = Geolocation.watchPosition(
       position => {
         //JSON 문자열로 변환하여 위도와 경도값 받아오기
-        setLatitude(JSON.stringify(position.coords.latitude));
-        setLogitude(JSON.stringify(position.coords.longitude));
-        console.log('실행중');
-        // bus.doc(busNumber).onSnapshot(doc => {
-        //   console.log('Current data: ', doc.data());
-        // });
+        const CurLatitude = JSON.stringify(position.coords.latitude);
+        const CurLongitude = JSON.stringify(position.coords.longitude);
+        setLatitude(CurLatitude);
+        setLogitude(CurLongitude);
         //좌표값이 존재할 경우 DB 업데이트
-        if (latitude && longitude) {
-          bus.doc(busNumber).update({latitude: latitude});
-          bus.doc(busNumber).update({longitude: longitude});
+        if (CurLatitude && CurLongitude) {
+          bus.doc(busNumber).update({latitude: CurLatitude});
+          bus.doc(busNumber).update({longitude: CurLongitude});
         }
       },
       //에러날 경우 코드, 메시지 로그 출력
