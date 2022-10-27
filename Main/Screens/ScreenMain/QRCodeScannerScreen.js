@@ -4,10 +4,13 @@ import QRCodeScanner from "react-native-qrcode-scanner";
 
 export default class QRCodeScannerScreen extends Component {
     onSuccess = async e => {
-        await this.props.navigation.navigate("QRCodeData", {
-            data: e.data,
-            scanner: this.scanner
-        });
+        try {
+            //this.props.navigation.navigate('HomeMain');
+            console.log("QR코드 스캔 완료");
+            console.log("버스 번호", e.data);
+        }catch (e) {
+            console.log(e);
+        }
     };
     render() {
         return (

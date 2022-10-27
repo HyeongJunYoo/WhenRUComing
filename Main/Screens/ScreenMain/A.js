@@ -13,7 +13,29 @@ import {
 import BusMap from './BusMap';
 import {useState} from 'react';
 
+//firebase/firestore import
+import firestore from '@react-native-firebase/firestore';
+
+
 export default function A() {
+  const [latitude, setLatitude] = useState();
+  const [longitude, setLogitude] = useState();
+  //서버에서 좌표 데이터를 가져오는 함수
+ const GetLocationData = () => {
+  const busData = firestore().collection('bus');
+  //위도, 경도
+  busData.doc("1234").get().then((doc) => {
+    if (doc.exists) {
+        console.log("Document data:", doc.data());
+        setLatitude(doc.data().latitude);
+        setLogitude(doc.data().longitude);
+    } else {
+        console.log("No such document!");
+    }
+  }).catch((error) => {
+    console.log("Error getting document:", error);
+  });
+};
 
   // 지점 별 거리 계산 식
   const Bus1 = (X1,Y1,X2,Y2) => {
@@ -192,7 +214,6 @@ if(SaRound2X  <BusX<SaRound1X   && SaRound1Y  <BusY< SaRound2Y  ){
 //=========================================
 
 
-
 //===========================
 //각 도착지점 별 도착 예정시간
    //var IeB = Bus1(IeX, IeY, BX, BY) // 이공관 -> 본관
@@ -268,7 +289,12 @@ const downCount = () =>{
         <View style={styles.textstyle}><Text>본관 도착까지 약: {SaB}분</Text></View>
         <View style={styles.textstyle}>
           <Button title="새로고침" onPress={       
-           IeB 
+           IeB
+               }></Button>
+               <Text> latitude: {latitude} </Text>
+                <Text> longitude: {longitude} </Text>
+          <Button title="데이터 새로고침" onPress={       
+           GetLocationData
                }></Button>
           
           <Text>이공 도착까지 약: {BIe}분</Text></View>

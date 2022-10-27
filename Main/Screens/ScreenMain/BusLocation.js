@@ -32,6 +32,7 @@ const BusLocation = ({route}) => {
         setLogitude(CurLongitude);
         //좌표값이 존재할 경우 DB 업데이트
         if (CurLatitude && CurLongitude) {
+          console.log("서버로 좌표 전송 완료!");
           bus.doc(busNumber).update({latitude: CurLatitude});
           bus.doc(busNumber).update({longitude: CurLongitude});
         }

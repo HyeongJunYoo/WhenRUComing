@@ -18,6 +18,7 @@ import BusMap from './Screens/ScreenMain/BusMap';
 //임포트 추가
 import Routes from './Screens/ScreenMain/Routes';
 import QRCodeScannerScreen from "./Screens/ScreenMain/QRCodeScannerScreen";
+import QRCodeData from "./Screens/ScreenMain/QRCodeData";
 
 const Stack = createNativeStackNavigator();
 
@@ -97,6 +98,11 @@ const App = () => {
         <Stack.Screen
           name="QRCodeScannerScreen"
           component={QRCodeScannerScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="QRCodeData"
+          component={QRCodeData}
           options={{headerShown: false}}
         />
         
