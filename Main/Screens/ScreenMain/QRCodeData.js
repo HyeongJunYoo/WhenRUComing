@@ -9,6 +9,7 @@ export default class QRCodeData extends Component {
 	}
 	
 	componentDidMount() {
+		
 		//아래 코드는 QRCodeScannerScreen을 통해 전달받은 정보를 수신
 
 		const qrCodeData = this.props.navigation.getParam("data", "No data read");
