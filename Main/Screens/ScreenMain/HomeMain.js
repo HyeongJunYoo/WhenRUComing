@@ -1,83 +1,37 @@
 // Example of Splash, Login and Sign Up in React Native
 // https://aboutreact.com/react-native-login-and-signup/
-import  React, { useCallback, useEffect } from 'react';
+import * as React from 'react';
 import { useNavigation } from '@react-navigation/native'; 
- 
 // Import React and Component
 
-
+import firestore from '@react-native-firebase/firestore';
 
 import {
   StyleSheet,
+  TextInput,
   View,
   Text,
   ScrollView,
   Image,
+  Keyboard,
   TouchableOpacity,
   KeyboardAvoidingView,
   Alert,
-  BackHandler,
-  
-  
+  Button,
+  IconCloseImg,
+  BackHandler
 } from 'react-native';
 
-const Homemain  = ({navigation}) => { 
- var backstop=0;
-  
-  useEffect(() => {
-    const backAction = () => {
-      if (backstop ==0) {
-        
-        Alert.alert("앱 종료", "앱을 종료하시겠습니까?", [
-          {
-            text: "취소",
-            onPress: () => null,
-            style: "cancel"
-          },
-          { text: "확인", onPress: () => BackHandler.exitApp() }
-        ]);
-        return true;
-      } else {
-        backstop=0
-        return false;
-      }
-    };
-      
-    
-    
+function GoToButton({screenName}) {
+  const navigation = useNavigation();
 
-    const backHandler = BackHandler.addEventListener(
-      "hardwareBackPress",
-      backAction
-    );
+  return <Button title={`${screenName}`} onPress={() => navigation.navigate(screenName)} />
+}
 
-    return () => backHandler.remove();
-  }, []);
-
-  
-  const Busr1 = () => {
-    if(true){
-      backstop=1;
-      {navigation.navigate("Busr")}
-      return ;
-    }
-  
-  };
-  const QRCodeScannerScreen1 = () => { 
-    if(true){
-      backstop=1;
-    {navigation.navigate("QRCodeScannerScreen")} //현재 QR 코드 스캔시 TypeError: JSON.stringify cannot serialize cyclic structures. 경고창이 뜸
-    return ;}
-  };
-  const BusMap1 = () => { 
-    if(true){
-      backstop=1;
-    {navigation.navigate("BusMap")}
-    return;}
-  };
+const Homemain = () => { 
   return (
-    
     <View style={styles.mainBody}>  
+    <ImageBackground source={icons.bakc1} style={styles.bgImage}>
       <ScrollView      
         contentContainerStyle={{
           flex: 1,
@@ -94,15 +48,15 @@ const Homemain  = ({navigation}) => {
                   height: 100,
                   resizeMode: 'contain',
                   margin: 30,
+                  marginTop: "35%" 
                 }}
               />
             </View>
             <TouchableOpacity
               style={styles.buttonStyle}
               activeOpacity={0.5}   
-              onPress= {(Busr1)}
               > 
-              
+              <GoToButton  screenName="Busr" />
               <Text style={styles.buttonTextStyle}>버스 노선</Text>            
             </TouchableOpacity>
             
@@ -110,21 +64,39 @@ const Homemain  = ({navigation}) => {
             <TouchableOpacity
               style={styles.buttonStyle}
               activeOpacity={0.5}
-              onPress= {(QRCodeScannerScreen1)}
               >
-                 
+                 <GoToButton screenName="LoginStudent" />
               <Text style={styles.buttonTextStyle}>QR 카메라</Text>            
             </TouchableOpacity>
+
             <TouchableOpacity
-              style={styles.buttonStyle}
+              style={styles.buttonStyle}// 임시로 버튼 생성하였습니다 -홍민재
               activeOpacity={0.5}
-              onPress= {(BusMap1)}
+              onPress= {()=>{
+                const addCollection = firestore().collection('bus');
+                return (
+                addCollection.doc("1234").get().then((doc)=>{
+                  try{if(doc.data().student_NUM<45){
+                    const number=doc.data().student_NUM;
+                    addCollection.doc("1234").update({student_NUM:number+1});
+                      }
+                    }catch(e){}
+                  })
+                );
+              }}>
+              <Text style={styles.buttonTextStyle}>탑승</Text>   
+            </TouchableOpacity>
+
+            <View style={styles.rumain}>          
+            <TouchableOpacity
+              style={styles.buttonStyle3}
+              activeOpacity={0.5}
               >
-                 
+                 <GoToButton screenName="BusMap" />
               <Text style={styles.buttonTextStyle}>버스표</Text>            
             </TouchableOpacity>
             <TouchableOpacity
-              style={styles.buttonStyle}
+              style={styles.buttonStyle2}
               activeOpacity={0.5}
               onPress={()=>{
                 Alert.alert(
@@ -145,11 +117,13 @@ const Homemain  = ({navigation}) => {
                 );
               }}
               >                
-              <Text style={styles.buttonTextStyle}>앱 종료</Text>            
-            </TouchableOpacity>                    
+              <Text style={styles.buttonTextStyle2}>앱 종료</Text>            
+            </TouchableOpacity>
+            </View>                 
           </KeyboardAvoidingView>
         </View>
       </ScrollView>
+      </ImageBackground>
     </View>
   );
 };
@@ -162,6 +136,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#FFFFFF',
     alignContent: 'center',
+  },
+  rumain: {
+    flex: 1,
+    flexDirection: 'row',
+    marginTop: "10%"                
   },
   SectionStyle: {
     flexDirection: 'row',
@@ -184,10 +163,43 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 25,
   },
+  buttonStyle2: {
+    backgroundColor: '#7DE24E',
+    borderWidth: 0,
+    color: '#FFFFFF',
+    borderColor: '#7DE24E',
+    height: 32,
+    width: 100,
+    alignItems: 'center',
+    borderRadius: 30,
+    marginLeft: "47%",
+   
+  
+   
+  },
+  buttonStyle3: {
+    backgroundColor: '#7DE24E',
+    borderWidth: 0,
+    color: '#FFFFFF',
+    borderColor: '#7DE24E',
+    height: 32,
+    width: 100,
+    alignItems: 'center',
+    borderRadius: 30,
+    marginLeft: "1%",
+    marginRight: 10,
+   
+    marginBottom: 25,
+  },
   buttonTextStyle: {
     color: '#000000',
     paddingVertical: 10,
     fontSize: 16,
+  },
+  buttonTextStyle2: {
+    color: '#000000',
+    paddingVertical: 10,
+    fontSize: 10,
   },
   inputStyle: {
     flex: 1,
@@ -210,5 +222,9 @@ const styles = StyleSheet.create({
     color: 'red',
     textAlign: 'center',
     fontSize: 14,
+  },
+  bgImage: {
+    width: '100%', 
+    height: '100%'
   },
 });

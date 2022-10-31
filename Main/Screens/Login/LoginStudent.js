@@ -14,7 +14,8 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   Alert,
-  Button
+  Button,
+  ImageBackground
 } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 import { useNavigation } from '@react-navigation/native';
@@ -24,7 +25,10 @@ function GoToButton({screenName}) {
 
   return <Button title={`${screenName}`} onPress={() => navigation.navigate(screenName)} />
 }
-
+const icons = {
+  bakc1: require('../../Image/backg.png'), //초록색 모서리
+  bakc2: require('../../Image/bak2.png') // 하늘색 모서리
+};
 
 function LoginStudent({navigation}) {
   const [userId, setUserId] = useState('');
@@ -80,15 +84,47 @@ function LoginStudent({navigation}) {
       return;
     }
     if(userId && userPassword){
-      {navigation.navigate("HomeMain")}
-      return;
+      addCollection.doc(userId).get().then((doc)=>{
+        try{
+          if(doc.data().password==userPassword){
+            {navigation.navigate("HomeMain")};
+            return;
+          }
+          else{
+            Alert.alert(
+              '비밀번호 오류 확인',
+              '비밀번호를 다시 입력해주세요',
+              [
+                {text: '확인', onPress: () => {}, style: 'cancel'},             
+              ],
+              {
+                cancelable: true,
+                onDismiss: () => {},
+              },  
+            )
+            return;
+          }
+        }catch(e){
+          Alert.alert(
+            '학번 오류 확인',
+            '학번을 다시 입력해주세요',
+            [
+              {text: '확인', onPress: () => {}, style: 'cancel'},             
+            ],
+            {
+              cancelable: true,
+              onDismiss: () => {},
+            },     
+          );
+          return;
+        }
+      }) 
     }
-
   };
  
   return (
     <View style={styles.mainBody}>
-      
+      <ImageBackground source={icons.bakc1} style={styles.bgImage}>
       <ScrollView
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={{
@@ -96,7 +132,9 @@ function LoginStudent({navigation}) {
           justifyContent: 'center',
           alignContent: 'center',
         }}>
+          
         <View>
+        
           <KeyboardAvoidingView enabled>
             <View style={{alignItems: 'center'}}>
               <Image
@@ -157,10 +195,12 @@ function LoginStudent({navigation}) {
   
               <Text style={styles.buttonTextStyle}>로그인</Text>
             </TouchableOpacity>
-            <Button title="Id/Password 추가" onPress={addText} />
           </KeyboardAvoidingView>
+          
         </View>
+       
       </ScrollView>
+      </ImageBackground>
     </View>
   );
 };
@@ -172,6 +212,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#FFFFFF',
     alignContent: 'center',
+  },
+  bgImage: {
+    width: '100%', 
+    height: '100%'
   },
   SectionStyle: {
     flexDirection: 'row',
