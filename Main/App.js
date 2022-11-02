@@ -15,6 +15,13 @@ import HomeMain from './Screens/ScreenMain/HomeMain' ;
 import Busr from './Screens/ScreenMain/Busr' ;
 import BusMap from './Screens/ScreenMain/BusMap' ;
 
+import BusLocation from './Screens/ScreenMain/BusLocation';
+//import Routes from './Screens/ScreenMain/Routes';
+//import QRCodeScannerScreen from "./Screens/ScreenMain/QRCodeScannerScreen";
+//import QRCodeData from "./Screens/ScreenMain/QRCodeData";
+import QRtest from "./Screens/ScreenMain/QRtest";
+import BusMain from './Screens/ScreenMain/BusMain';
+
 
 
 const Stack = createNativeStackNavigator();
@@ -86,31 +93,16 @@ const App = () => {
           component={BusLocation}
           options={{headerShown: false}}
         />
-          <Stack.Screen
-          name="Routes"
-          component={Routes}
+
+        <Stack.Screen
+          name="QRtest"
+          component={QRtest}
           options={{headerShown: false}}
         />
 
         <Stack.Screen
-          name="QRCodeScannerScreen"
-          component={QRCodeScannerScreen}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="QRCodeData"
-          component={QRCodeData}
-          options={{headerShown: false}}
-        />
-          <Stack.Screen
-          name="Routes"
-          component={Routes}
-          options={{headerShown: false}}
-        />
-
-        <Stack.Screen
-          name="QRCodeScannerScreen"
-          component={QRCodeScannerScreen}
+          name="BusMain"
+          component={BusMain}
           options={{headerShown: false}}
         />
         

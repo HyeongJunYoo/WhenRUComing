@@ -14,9 +14,19 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   Alert,
-  ImageBackground
+  ImageBackground,
+  Button
 } from 'react-native';
 import firestore from '@react-native-firebase/firestore'; 
+//추가 임포트
+//import BusMain from '../ScreenMain/BusMain';
+import { useNavigation } from '@react-navigation/native'; 
+
+function GoToButton({screenName}) {
+  const navigation = useNavigation();
+
+  return <Button title={`${screenName}`} onPress={() => navigation.navigate(screenName)} />
+}
 
 const addCollection = firestore().collection('bus');
 const LoginBus = ({navigation}) => {
@@ -118,6 +128,7 @@ const LoginBus = ({navigation}) => {
               style={styles.buttonStyle}
               activeOpacity={0.5}
               onPress={handleSubmitPress}>
+                 <GoToButton screenName="BusMain" />
               <Text style={styles.buttonTextStyle}>로그인</Text>
             </TouchableOpacity>
           </KeyboardAvoidingView>
