@@ -1,12 +1,11 @@
 // Example of Splash, Login and Sign Up in React Native
 // https://aboutreact.com/react-native-login-and-signup/
 
- 
 // Import React and Component
 import React from 'react';
 // Import Navigators from React Navigation
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator } from '@react-navigation/native-stack';
+import {NavigationContainer, useRoute} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 //임포트할 화면들/
 import LoginMain from './Screens/Login/LoginMain';
@@ -29,7 +28,7 @@ const Stack = createNativeStackNavigator();
 //           component={loginmain}
 //           options={{headerShown: false}}
 //         />
-//            <Stack.Screen
+//            <Stack.Screennp
 //           name="loginbus"
 //           component={loginbus}
 //           options={{headerShown: false}}
@@ -39,48 +38,79 @@ const Stack = createNativeStackNavigator();
 //           component={LoginStudent}
 //           options={{headerShown: false}}
 //         />
-       
+
 //       </Stack.Navigator>
 //     </NavigationContainer>
 //   );
 //  };
 
-
- 
 const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="LoginMain">
-        {/* SplashScreen which will come once for 5 Seconds */}      
+        {/* SplashScreen which will come once for 5 Seconds */}
         {/* Auth Navigator: Include Login and Signup */}
         <Stack.Screen
           name="LoginMain"
           component={LoginMain}
           options={{headerShown: false}}
         />
-           <Stack.Screen
+        <Stack.Screen
           name="LoginBus"
           component={LoginBus}
-          options={{headerShown: true}}
+          options={{headerShown: false}}
         />
-           <Stack.Screen
+        <Stack.Screen
           name="LoginStudent"
           component={LoginStudent}
-          options={{headerShown: true}}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Busr"
+          component={Busr}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="BusMap"
+          component={BusMap}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name="HomeMain"
           component={HomeMain}
           options={{headerShown: false}}
         />
-          <Stack.Screen
-          name="Busr"
-          component={Busr}
+
+        <Stack.Screen
+          name="BusLocation"
+          component={BusLocation}
           options={{headerShown: false}}
         />
           <Stack.Screen
-          name="BusMap"
-          component={BusMap}
+          name="Routes"
+          component={Routes}
+          options={{headerShown: false}}
+        />
+
+        <Stack.Screen
+          name="QRCodeScannerScreen"
+          component={QRCodeScannerScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="QRCodeData"
+          component={QRCodeData}
+          options={{headerShown: false}}
+        />
+          <Stack.Screen
+          name="Routes"
+          component={Routes}
+          options={{headerShown: false}}
+        />
+
+        <Stack.Screen
+          name="QRCodeScannerScreen"
+          component={QRCodeScannerScreen}
           options={{headerShown: false}}
         />
         
@@ -88,5 +118,6 @@ const App = () => {
       </Stack.Navigator>
     </NavigationContainer>
   );
- };
+};
+
 export default App;
