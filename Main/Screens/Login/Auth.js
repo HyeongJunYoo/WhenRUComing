@@ -1,11 +1,14 @@
 import { initializeApp } from "firebase/app";
-import { initializeAuth } from "firebase/auth";
 import {
+    initializeAuth,
+    getReactNativePersistence,
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
     onAuthStateChanged,
     signOut
 } from "firebase/auth";
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const firebaseConfig = {
   apiKey: "AIzaSyDq35wSN1x_tPgks-QlCiFQRDrBBRRoem4",
@@ -22,14 +25,14 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 // Initialize Firebase Authentication and get a reference to the service
-const auth = initializeAuth(app);
+const auth = initializeAuth(app, { persistence: getReactNativePersistence(AsyncStorage) });
 
 export function login({userId, userPassword}) {
-  return signInWithEmailAndPassword(
-    auth,
-    userId,
-    userPassword
-  );
+    return signInWithEmailAndPassword(
+      auth,
+      userId,
+      userPassword
+    );
 }
 
 export function signUp({userId, userPassword}) {
@@ -47,5 +50,7 @@ export function subscribeAuth(callback) {
 }
 
 export function logout() {
-  return signOut();
+  return signOut(
+    auth
+  );
 }

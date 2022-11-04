@@ -30,6 +30,20 @@ function LoginStudent({navigation}) {
   const [errortext, setErrortext] = useState('');
   const passwordInputRef = createRef();
 
+  useEffect(() => {
+    subscribeAuth((user) => { // user 판명을 듣고 
+      if(user) { // 있으면
+        setIsLoggedIn(true);
+        //navigation.navigate('HomeMain');
+        console.log("로그인 유지됨!"); // 로그인 됨
+      } else {
+        setIsLoggedIn(false);
+        navigation.navigate('LoginStudent');
+        console.log("로그아웃 상태!!"); // 로그인 안됨
+      }
+    });
+  }, [])
+
   const signUpSubmit = async () => { // 회원가입 함수
     const {userId, userPassword} = form;
     const info = {userId, userPassword};
@@ -43,8 +57,7 @@ function LoginStudent({navigation}) {
       console.log(e);
     }
   }
-  
-  
+
   const signInSubmit = async () => { // 로그인 함수
     const {userId, userPassword} = form;
     const info = {userId, userPassword};
@@ -58,18 +71,16 @@ function LoginStudent({navigation}) {
       console.log(e);
     }
   }
-  useEffect(() => {
-    subscribeAuth((user) => { // user 판명을 듣고 
-      if(user) { // 있으면
-        setIsLoggedIn(true);
-        console.log("로그인 유지됨!"); // 로그인 됨
-      } else {
-        setIsLoggedIn(false);
-        console.log("로그인 안됨!!"); // 로그인 안됨
-      }
-      console.log("subscribeAuth 실햄됨"); // user 판명 끝
-    });
-  }, [])
+
+  const signOutSubmit = async () => { // 로그아웃 함수
+    try {
+      await logout();
+      console.log("로그아웃 하였습니다.");
+    } catch (e) {
+      Alert.alert("로그아웃에 실패하였습니다.");
+      console.log(e);
+    }
+  }
  
   const handleSubmitPress = () => {
     setErrortext('');
@@ -174,8 +185,19 @@ function LoginStudent({navigation}) {
               onPress={(handleSubmitPress)}>
               <Text style={styles.buttonTextStyle}>로그인</Text>
             </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.buttonStyle}
+              activeOpacity={0.5}
+              onPress={(signOutSubmit)}>
+              <Text style={styles.buttonTextStyle}>로그아웃</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.buttonStyle}
+              activeOpacity={0.5}
+              onPress={(signUpSubmit)}>
+              <Text style={styles.buttonTextStyle}>회원가입</Text>
+            </TouchableOpacity>
           </KeyboardAvoidingView>
-          
         </View>
        
       </ScrollView>
