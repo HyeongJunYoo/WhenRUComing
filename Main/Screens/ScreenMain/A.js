@@ -8,14 +8,12 @@ import {
   Button,
   Icon,
   RefreshControl
-  
 } from 'react-native';
 import BusMap from './BusMap';
 import {useState} from 'react';
 
 //firebase/firestore import
 import firestore from '@react-native-firebase/firestore';
-
 
 export default function A() {
   const [latitude, setLatitude] = useState();
@@ -49,7 +47,6 @@ export default function A() {
     return busResult;
   };
 
-
   //아마도 버스 랑 도착지점 까지 남은 거리 계산할때 쓸듯? 아직 수정안함
   const Bus2 = (X1,Y1,X2,Y2) => {
     //X1 ,Y1 시작 좌표 
@@ -63,9 +60,8 @@ export default function A() {
     return busResult;
   };
 
-
-   // var bus = Math.pow(37.276682-37.275715,2) + Math.pow(127.134465-127.133373,2)
-   // var busResult = Math.sqrt(bus)
+   //var bus = Math.pow(37.276682-37.275715,2) + Math.pow(127.134465-127.133373,2)
+   //var busResult = Math.sqrt(bus)
    //var bus = Bus1(37.276682,127.134465,37.275715,127.133373);
    //var bus = Bus1(37.270481,127.126427,37.273563,127.129148);
 

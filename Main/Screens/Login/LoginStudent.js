@@ -1,8 +1,5 @@
-// Example of Splash, Login and Sign Up in React Native
-// https://aboutreact.com/react-native-login-and-signup/
- 
-// Import React and Component
-import React, {useState, createRef} from 'react';
+ // Import React and Component
+import React, {useState, useEffect, createRef} from 'react';
 import {
   StyleSheet,
   TextInput,
@@ -14,48 +11,69 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   Alert,
-  Button,
   ImageBackground
 } from 'react-native';
-import firestore from '@react-native-firebase/firestore';
-import { useNavigation } from '@react-navigation/native';
+import { login, logout, signUp, subscribeAuth } from "../../Screens/Login/Auth";
 
-function GoToButton({screenName}) {
-  const navigation = useNavigation();
-
-  return <Button title={`${screenName}`} onPress={() => navigation.navigate(screenName)} />
-}
 const icons = {
   bakc1: require('../../Image/backg.png'), //초록색 모서리
   bakc2: require('../../Image/bak2.png') // 하늘색 모서리
 };
 
 function LoginStudent({navigation}) {
-  const [userId, setUserId] = useState('');
-  const [userPassword, setUserPassword] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [form, setForm] = useState({
+    userId: "",
+    userPassword: "",
+    confirmPassword: "",
+  });
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [errortext, setErrortext] = useState('');
- 
   const passwordInputRef = createRef();
- 
-  const addCollection = firestore().collection('student'); //student라는 컬렉션으로 data 추가
-  const addText = async () => {
-    try {
-      await addCollection.add({
-        studentId: userId,
-        password: userPassword,
-      });
-      setUserId('');
-      setUserPassword('');
-      console.log('Create Complete!');
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
 
+  const signUpSubmit = async () => { // 회원가입 함수
+    const {userId, userPassword} = form;
+    const info = {userId, userPassword};
+    console.log(form);
+    console.log(info);
+    try {
+      const {user} = await signUp((info));
+      console.log(user);
+    } catch (e) {
+      Alert.alert("회원가입에 실패하였습니다.");
+      console.log(e);
+    }
+  }
+  
+  
+  const signInSubmit = async () => { // 로그인 함수
+    const {userId, userPassword} = form;
+    const info = {userId, userPassword};
+    console.log(form);
+    console.log(info);
+    try {
+      const {user} = await login(info);
+      console.log(user);
+    } catch (e) {
+      Alert.alert("로그인에 실패하였습니다.");
+      console.log(e);
+    }
+  }
+  useEffect(() => {
+    subscribeAuth((user) => { // user 판명을 듣고 
+      if(user) { // 있으면
+        setIsLoggedIn(true);
+        console.log("로그인 유지됨!"); // 로그인 됨
+      } else {
+        setIsLoggedIn(false);
+        console.log("로그인 안됨!!"); // 로그인 안됨
+      }
+      console.log("subscribeAuth 실햄됨"); // user 판명 끝
+    });
+  }, [])
+ 
   const handleSubmitPress = () => {
     setErrortext('');
-    if (!userId) {
+    if (!form.userId) {
         Alert.alert(
             '학번 누락 확인',
             '학번을 입력해주세요',
@@ -67,9 +85,8 @@ function LoginStudent({navigation}) {
               onDismiss: () => {},
             },       
        );
-      return;
     }
-    if (!userPassword) {
+    else if (!form.userPassword) {
         Alert.alert(
             '비밀번호 누락 확인',
             '비밀번호를 입력해주세요',
@@ -81,47 +98,11 @@ function LoginStudent({navigation}) {
               onDismiss: () => {},
             },       
        );
-      return;
     }
-    if(userId && userPassword){
-      addCollection.doc(userId).get().then((doc)=>{
-        try{
-          if(doc.data().password==userPassword){
-            {navigation.navigate("HomeMain")};
-            return;
-          }
-          else{
-            Alert.alert(
-              '비밀번호 오류 확인',
-              '비밀번호를 다시 입력해주세요',
-              [
-                {text: '확인', onPress: () => {}, style: 'cancel'},             
-              ],
-              {
-                cancelable: true,
-                onDismiss: () => {},
-              },  
-            )
-            return;
-          }
-        }catch(e){
-          Alert.alert(
-            '학번 오류 확인',
-            '학번을 다시 입력해주세요',
-            [
-              {text: '확인', onPress: () => {}, style: 'cancel'},             
-            ],
-            {
-              cancelable: true,
-              onDismiss: () => {},
-            },     
-          );
-          return;
-        }
-      }) 
-    }
+    else {
+      signInSubmit();
+      }
   };
- 
   return (
     <View style={styles.mainBody}>
       <ImageBackground source={icons.bakc1} style={styles.bgImage}>
@@ -134,7 +115,6 @@ function LoginStudent({navigation}) {
         }}>
           
         <View>
-        
           <KeyboardAvoidingView enabled>
             <View style={{alignItems: 'center'}}>
               <Image
@@ -151,9 +131,9 @@ function LoginStudent({navigation}) {
               <TextInput
                 style={styles.inputStyle}
                 onChangeText={(userId) =>
-                  setUserId(userId)
+                  setForm({...form, userId : userId})
                 }
-                placeholder="학번" //dummy@abc.com
+                placeholder="학번"
                 placeholderTextColor="#8b9cb5"
                 autoCapitalize="none"
                 keyboardType="number-pad"
@@ -169,8 +149,8 @@ function LoginStudent({navigation}) {
             <View style={styles.SectionStyle}>
               <TextInput
                 style={styles.inputStyle}
-                onChangeText={(UserPassword) =>
-                  setUserPassword(UserPassword)
+                onChangeText={(userPassword) =>
+                  setForm({...form, userPassword : userPassword})
                 }
                 placeholder="비밀번호" //12345
                 placeholderTextColor="#8b9cb5"
@@ -192,7 +172,6 @@ function LoginStudent({navigation}) {
               style={styles.buttonStyle}
               activeOpacity={0.5}
               onPress={(handleSubmitPress)}>
-  
               <Text style={styles.buttonTextStyle}>로그인</Text>
             </TouchableOpacity>
           </KeyboardAvoidingView>

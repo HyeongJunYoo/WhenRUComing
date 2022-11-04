@@ -17,8 +17,10 @@ import {
   ImageBackground
 } from 'react-native';
 import firestore from '@react-native-firebase/firestore'; 
+import { applyPatch } from 'patch-package/dist/applyPatches';
 
 const addCollection = firestore().collection('bus');
+
 const LoginBus = ({navigation}) => {
   const [userId, setuserId] = useState('');
   const [loading, setLoading] = useState(false);
@@ -34,6 +36,7 @@ const LoginBus = ({navigation}) => {
 
   const handleSubmitPress = () => {
     setErrortext('');
+    console.log("Token Value", test);
     if (!userId) {
       Alert.alert(
         '버스 번호 누락 확인',
