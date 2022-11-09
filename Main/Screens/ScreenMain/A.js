@@ -247,13 +247,9 @@ const downCount = () =>{
   setNumber(number  - 1)
 }
 
-
-
-
-
     return (
       <View style={styles.rumain}>
-        <View style={styles.ru}>
+        {/* <View style={styles.ru}>
         <View style={{flex:0.5}}></View>
           
           <View style={styles.rumname}><Text>본관</Text></View>
@@ -294,10 +290,7 @@ const downCount = () =>{
                }></Button>
           
           <Text>이공 도착까지 약: {BIe}분</Text></View>
-
-
-       
-        </View>
+        </View> */}
       </View>
     );
   

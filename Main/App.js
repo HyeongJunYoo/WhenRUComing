@@ -14,6 +14,7 @@ import BusMain from './Screens/ScreenMain/BusMain';
 import HomeMain from './Screens/ScreenMain/HomeMain';
 import Busr from './Screens/ScreenMain/Busr';
 import BusMap from './Screens/ScreenMain/BusMap';
+import Setting from './Screens/ScreenMain/Setting';
 //임포트 추가
 // import Routes from './Screens/ScreenMain/Routes';
 import QRCodeScannerScreen from "./Screens/ScreenMain/QRCodeScannerScreen";
@@ -80,6 +81,11 @@ const App = () => {
          <Stack.Screen
           name="BusMain"
           component={BusMain}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Setting"
+          component={Setting}
           options={{headerShown: false}}
         />
           {/* <Stack.Screen
