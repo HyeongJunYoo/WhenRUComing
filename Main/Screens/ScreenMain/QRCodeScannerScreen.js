@@ -6,6 +6,7 @@ export default class QRCodeScannerScreen extends Component {
     onSuccess = async e => {
         try {
             //this.props.navigation.navigate('HomeMain');
+            console.log(this.props.navigation.canGoBack());
             console.log("QR코드 스캔 완료");
             console.log("버스 번호", e.data);
         }catch (e) {

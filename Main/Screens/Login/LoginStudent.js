@@ -13,7 +13,7 @@ import {
   Alert,
   ImageBackground
 } from 'react-native';
-import { login, logout, signUp, subscribeAuth } from "../../Screens/Login/Auth";
+import { login, signUp, subscribeAuth } from "../../Screens/Login/Auth";
 
 const icons = {
   bakc1: require('../../Image/backg.png'), //초록색 모서리
@@ -26,21 +26,19 @@ function LoginStudent({navigation}) {
     userPassword: "",
     confirmPassword: "",
   });
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [errortext, setErrortext] = useState('');
   const passwordInputRef = createRef();
 
   useEffect(() => {
-    subscribeAuth((user) => { // user 판명을 듣고 
+    subscribeAuth((user) => { // user 판명을 듣고
       if(user) { // 있으면
-        setIsLoggedIn(true);
-        navigation.navigate('HomeMain');
+        navigation.reset({routes: [{name: "HomeMain"}]})
         console.log("로그인 유지됨!"); // 로그인 됨
       } else {
-        setIsLoggedIn(false);
-        navigation.navigate('LoginStudent');
+        navigation.navigate("LoginStudent");
         console.log("로그아웃 상태!!"); // 로그인 안됨
       }
+
     });
   }, [])
 
@@ -68,16 +66,6 @@ function LoginStudent({navigation}) {
       console.log(user);
     } catch (e) {
       Alert.alert("로그인에 실패하였습니다.");
-      console.log(e);
-    }
-  }
-
-  const signOutSubmit = async () => { // 로그아웃 함수
-    try {
-      await logout();
-      console.log("로그아웃 하였습니다.");
-    } catch (e) {
-      Alert.alert("로그아웃에 실패하였습니다.");
       console.log(e);
     }
   }
@@ -188,14 +176,14 @@ function LoginStudent({navigation}) {
             <TouchableOpacity
               style={styles.buttonStyle}
               activeOpacity={0.5}
-              onPress={(signOutSubmit)}>
-              <Text style={styles.buttonTextStyle}>로그아웃</Text>
+              onPress={(signUpSubmit)}>
+              <Text style={styles.buttonTextStyle}>회원가입</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.buttonStyle}
               activeOpacity={0.5}
-              onPress={(signUpSubmit)}>
-              <Text style={styles.buttonTextStyle}>회원가입</Text>
+              onPress={() => navigation.navigate("LoginBus")}>
+              <Text style={styles.buttonTextStyle}>버스기사</Text>
             </TouchableOpacity>
           </KeyboardAvoidingView>
         </View>

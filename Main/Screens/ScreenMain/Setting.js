@@ -16,11 +16,12 @@
  import { logout } from "../../Screens/Login/Auth";
  
  
- function Setting() {
+ function Setting({navigation}) {
 
    const signOutSubmit = async () => { // 로그아웃 함수
      try {
        await logout();
+       navigation.reset({routes: [{name: "LoginStudent"}]});
        console.log("로그아웃 하였습니다.");
      } catch (e) {
        Alert.alert("로그아웃에 실패하였습니다.");
