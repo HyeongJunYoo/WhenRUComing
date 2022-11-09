@@ -1,13 +1,22 @@
 import React, { Component } from "react";
 import { StyleSheet, Dimensions, View } from "react-native";
 import QRCodeScanner from "react-native-qrcode-scanner";
+import firestore from '@react-native-firebase/firestore';
+
+const addCollection = firestore().collection('bus');
 
 export default class QRCodeScannerScreen extends Component {
     onSuccess = async e => {
-        await this.props.navigation.navigate("QRCodeData", {
-            data: e.data,
-            scanner: this.scanner
-        });
+        try {
+            addCollection.doc(e.data).get().then((doc)=>{
+                if(doc.data().student_NUM<45){
+                  const number=doc.data().student_NUM;
+                  addCollection.doc(e.data).update({student_NUM:number+1});
+                }
+            })
+        }catch (e) {
+            console.log(e);
+        }
     };
     render() {
         return (
