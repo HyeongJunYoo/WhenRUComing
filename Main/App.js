@@ -18,7 +18,6 @@ import Setting from './Screens/ScreenMain/Setting';
 //임포트 추가
 // import Routes from './Screens/ScreenMain/Routes';
 import QRCodeScannerScreen from "./Screens/ScreenMain/QRCodeScannerScreen";
-import QRCodeData from "./Screens/ScreenMain/QRCodeData";
 
 const Stack = createNativeStackNavigator();
 
@@ -88,23 +87,12 @@ const App = () => {
           component={Setting}
           options={{headerShown: false}}
         />
-          {/* <Stack.Screen
-          name="Routes"
-          component={Routes}
-          options={{headerShown: false}}
-        /> */}
-
         <Stack.Screen
           name="QRCodeScannerScreen"
           component={QRCodeScannerScreen}
           options={{headerShown: false}}
         />
-        <Stack.Screen
-          name="QRCodeData"
-          component={QRCodeData}
-          options={{headerShown: false}}
-        />
-        
+
         {/* Navigation Drawer as a landing page */}
       </Stack.Navigator>
     </NavigationContainer>
