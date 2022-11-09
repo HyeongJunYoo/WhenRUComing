@@ -34,7 +34,7 @@ function LoginStudent({navigation}) {
     subscribeAuth((user) => { // user 판명을 듣고 
       if(user) { // 있으면
         setIsLoggedIn(true);
-        //navigation.navigate('HomeMain');
+        navigation.navigate('HomeMain');
         console.log("로그인 유지됨!"); // 로그인 됨
       } else {
         setIsLoggedIn(false);

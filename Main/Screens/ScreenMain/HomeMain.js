@@ -1,10 +1,4 @@
-// Example of Splash, Login and Sign Up in React Native
-// https://aboutreact.com/react-native-login-and-signup/
-import  React, { useCallback, useEffect } from 'react';
-import { useNavigation } from '@react-navigation/native'; 
- 
-// Import React and Component
-
+import  React, { useEffect } from 'react';
 import firestore from '@react-native-firebase/firestore';
 
 import {

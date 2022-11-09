@@ -1,7 +1,3 @@
-// Example of Splash, Login and Sign Up in React Native
-// https://aboutreact.com/react-native-login-and-signup/
-
-// Import React and Component
 import React, {useState, createRef} from 'react';
 import {
   StyleSheet,
@@ -10,20 +6,16 @@ import {
   Text,
   ScrollView,
   Image,
-  Keyboard,
   TouchableOpacity,
   KeyboardAvoidingView,
   Alert,
-  ImageBackground
+  ImageBackground,
+  PermissionsAndroid
 } from 'react-native';
 import firestore from '@react-native-firebase/firestore'; 
-import { applyPatch } from 'patch-package/dist/applyPatches';
-
-const addCollection = firestore().collection('bus');
 
 const LoginBus = ({navigation}) => {
   const [userId, setuserId] = useState('');
-  const [loading, setLoading] = useState(false);
   const [errortext, setErrortext] = useState('');
 
   const passwordInputRef = createRef();
@@ -32,11 +24,10 @@ const LoginBus = ({navigation}) => {
     bakc2: require('../../Image/bak2.png') // 하늘색 모서리
   };
 
-  const addCollection = firestore().collection('bus');
+  const bus = firestore().collection('bus');
 
   const handleSubmitPress = () => {
     setErrortext('');
-    console.log("Token Value", test);
     if (!userId) {
       Alert.alert(
         '버스 번호 누락 확인',
@@ -49,15 +40,14 @@ const LoginBus = ({navigation}) => {
       );
       return;
     } else {
-      addCollection
+      bus
         .doc(userId)
         .get()
-        .then(doc => {
+        .then(documentSnapshot => {
           try {
-            //navigation을 사용하여 BusLocation.js 페이지를 로드, param 값으로 busNumber: userId를 넘김
-            navigation.navigate('BusLocation', {busNumber: userId});
-            if (doc.data().driver == false) {
-              addCollection.doc(userId).update({driver: true});
+            if(documentSnapshot.exists)
+            {
+              requestPermissions();
             }
           } catch (e) {
             Alert.alert(
@@ -69,11 +59,43 @@ const LoginBus = ({navigation}) => {
                 onDismiss: () => {},
               },
             );
-            return;
           }
         });
     }
   };
+
+  //비동기식으로 위치 동의 구하기
+  async function requestPermissions() {
+    if (Platform.OS === 'ios') {
+      try{
+        const auth = await Geolocation.requestAuthorization('whenInUse');
+        if (auth === 'granted') {
+          navigation.navigate('BusMain', {busNumber: userId});
+        }else{
+
+        }
+    }catch(error) {
+      console.warn(error);
+    }
+    }
+
+    if (Platform.OS === 'android') {
+      try{
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        );
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          //navigation을 사용하여 BusMain.js 페이지를 로드, param 값으로 busNumber: userId를 넘김
+          navigation.navigate('BusMain', {busNumber: userId});
+          console.log("permission 승인완료~");
+        }else{
+
+        }
+      }catch(error){
+        console.warn(error);
+      }
+    }
+  }
 
   return (
     <View style={styles.mainBody}>
