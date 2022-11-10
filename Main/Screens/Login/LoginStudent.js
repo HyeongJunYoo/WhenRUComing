@@ -135,7 +135,6 @@ function LoginStudent({navigation}) {
                 placeholder="학번"
                 placeholderTextColor="#8b9cb5"
                 autoCapitalize="none"
-                keyboardType="number-pad"
                 returnKeyType="next"
                 onSubmitEditing={() =>
                   passwordInputRef.current &&
