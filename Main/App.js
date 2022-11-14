@@ -8,6 +8,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 //임포트할 화면들/
+import Loading from './Screens/Login/Loading';
 import LoginBus from './Screens/Login/LoginBus';
 import LoginStudent from './Screens/Login/LoginStudent';
 import BusMain from './Screens/ScreenMain/BusMain';
@@ -17,7 +18,7 @@ import BusMap from './Screens/ScreenMain/BusMap';
 import Setting from './Screens/ScreenMain/Setting';
 //임포트 추가
 // import Routes from './Screens/ScreenMain/Routes';
-import QRCodeScannerScreen from "./Screens/ScreenMain/QRCodeScannerScreen";
+import QRCodeScannerScreen from './Screens/ScreenMain/QRCodeScannerScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -49,9 +50,14 @@ const Stack = createNativeStackNavigator();
 const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="LoginStudent">
+      <Stack.Navigator initialRouteName="Loading">
         {/* SplashScreen which will come once for 5 Seconds */}
         {/* Auth Navigator: Include Login and Signup */}
+        <Stack.Screen
+          name="Loading"
+          component={Loading}
+          options={{headerShown: false}}
+        />
         <Stack.Screen
           name="LoginBus"
           component={LoginBus}
@@ -77,7 +83,7 @@ const App = () => {
           component={HomeMain}
           options={{headerShown: false}}
         />
-         <Stack.Screen
+        <Stack.Screen
           name="BusMain"
           component={BusMain}
           options={{headerShown: false}}

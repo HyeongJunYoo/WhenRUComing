@@ -30,22 +30,63 @@ const giToSyal_4 = new Coord(37.273905, 127.130606); //샬룸관 가는 길 꺽�
 const syallomgwan = new Coord(37.274591, 127.1302398); //샬룸관
 const syalToBon = new Coord(37.274757, 127.130196); //샬룸관 -> 본관 길 꺽이는 곳
 
-const busStopDist = [
-  igonggwan.distance(bongwan),
-  bongwan.distance(bonToIn_1),
-  bonToIn_1.distance(bonToIn_2),
-  bonToIn_2.distance(insagwan),
-  insagwan.distance(inToGi_1),
-  inToGi_1.distance(frontGate),
-  frontGate.distance(inToGi_2),
-  inToGi_2.distance(inToGi_3),
-  inToGi_3.distance(inToGi_4),
-  inToGi_4.distance(inToGi_5),
-  inToGi_5.distance(giheung),
-  giheung.distance(giToSyal_1),
-  giToSyal_1.distance(giToSyal_2),
-  giToSyal_2.distance(giToSyal_3),
-  giToSyal_3.distance(giToSyal_4),
-  giToSyal_4.distance(syallomgwan),
-  syallomgwan.distance(syalToBon),
+//목적지
+const destination = [
+  bongwan,
+  bonToIn_1,
+  bonToIn_2,
+  insagwan,
+  inToGi_1,
+  frontGate,
+  inToGi_2,
+  inToGi_3,
+  inToGi_4,
+  inToGi_5,
+  giheung,
+  giToSyal_1,
+  giToSyal_2,
+  giToSyal_3,
+  frontGate,
+  giToSyal_4,
+  syallomgwan,
+  syalToBon,
+  bonToIn_2,
+  bonToIn_1,
+  bongwan,
+  igonggwan,
 ];
+
+//본관 -> 인문
+const bToInDist =
+  bongwan.distance(bonToIn_1) +
+  bonToIn_1.distance(bonToIn_2) +
+  bonToIn_2.distance(insagwan);
+//인문 ->기흥
+const inToGiDist =
+  insagwan.distance(inToGi_1) +
+  inToGi_1.distance(frontGate) +
+  frontGate.distance(inToGi_2) +
+  inToGi_2.distance(inToGi_3) +
+  inToGi_3.distance(inToGi_4) +
+  inToGi_4.distance(inToGi_5) +
+  inToGi_5.distance(giheung);
+//기흥->샬룸
+const giToSyalDist =
+  giheung.distance(giToSyal_1) +
+  giToSyal_1.distance(giToSyal_2) +
+  giToSyal_2.distance(giToSyal_3) +
+  giToSyal_3.distance(frontGate) +
+  frontGate.distance(giToSyal_4) +
+  giToSyal_4.distance(syallomgwan);
+//샬룸->본관
+const syalToBonDist =
+  syallomgwan.distance(syalToBon) +
+  syalToBon.distance(bonToIn_2) +
+  bonToIn_2.distance(bonToIn_1) +
+  bonToIn_1.distance(bongwan);
+//본관->이공
+const bonToi = bongwan.distance(igonggwan);
+
+//전체 노선 길이
+const busRouteDist =
+  bToInDist + inToGiDist + giToSyalDist + syalToBonDist + bonToi;
