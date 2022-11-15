@@ -1,23 +1,28 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {Button, StyleSheet, View, Image, Animated} from 'react-native';
+import {Easing, StyleSheet, View, Image, Animated} from 'react-native';
 
 function Loading() {
   const animation = useRef(new Animated.Value(0)).current;
   Animated.loop(
     Animated.timing(animation, {
-      toValue: 360,
-      duration: 1000,
+      toValue: 1,
+      duration: 1200,
       useNativeDriver: true,
+      easing: Easing.bezier(0, 1, 1, 0),
     }),
   ).start();
   const spin = animation.interpolate({
     inputRange: [0, 1],
-    outputRange: ['0deg', '1deg'],
+    outputRange: ['0deg', '360deg'],
+  });
+  const speed = animation.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0, 600],
   });
   return (
     <View style={styles.mainBody}>
       <Animated.View
-        style={[styles.bus_bottom, {transform: [{translateX: animation}]}]}>
+        style={[styles.bus_bottom, {transform: [{translateX: speed}]}]}>
         <Image
           source={require('../../Image/bus_bottom.png')}
           style={styles.bus_bottom}></Image>
@@ -47,6 +52,7 @@ const styles = StyleSheet.create({
   },
 
   bus_bottom: {
+    right: '40%',
     marginTop: 50,
     width: '100%',
     height: '85%',
