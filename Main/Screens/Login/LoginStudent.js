@@ -13,14 +13,15 @@ import {
   Alert,
   ImageBackground
 } from 'react-native';
+import Loading from './Loading';
 import { login, signUp, subscribeAuth } from "../../Screens/Login/Auth";
-
 const icons = {
   bakc1: require('../../Image/backg.png'), //초록색 모서리
   bakc2: require('../../Image/bak2.png') // 하늘색 모서리
 };
 
 function LoginStudent({navigation}) {
+  const [loading, setLoading] = useState(true)
   const [form, setForm] = useState({
     userId: "",
     userPassword: "",
@@ -38,6 +39,9 @@ function LoginStudent({navigation}) {
         navigation.navigate("LoginStudent");
         console.log("로그아웃 상태!!"); // 로그인 안됨
       }
+      setTimeout(()=>{
+        setLoading(false);
+    },1000)
 
     });
   }, [])
@@ -100,9 +104,10 @@ function LoginStudent({navigation}) {
     }
     else {
       signInSubmit();
+      setLoading(true);
       }
   };
-  return (
+  return loading ? <Loading/> : (
     <View style={styles.mainBody}>
       <ImageBackground source={icons.bakc1} style={styles.bgImage}>
       <ScrollView

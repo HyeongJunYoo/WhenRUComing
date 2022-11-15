@@ -50,7 +50,7 @@ const Stack = createNativeStackNavigator();
 const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Loading">
+      <Stack.Navigator initialRouteName="LoginStudent">
         {/* SplashScreen which will come once for 5 Seconds */}
         {/* Auth Navigator: Include Login and Signup */}
         <Stack.Screen
