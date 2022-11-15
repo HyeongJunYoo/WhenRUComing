@@ -73,6 +73,7 @@ function LoginStudent({navigation}) {
       console.log(user);
     } catch (e) {
       Alert.alert('로그인에 실패하였습니다.');
+      setLoading(false);
       console.log(e);
     }
   };

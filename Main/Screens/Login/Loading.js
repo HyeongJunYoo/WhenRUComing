@@ -52,8 +52,8 @@ const styles = StyleSheet.create({
   },
 
   bus_bottom: {
-    right: '40%',
-    marginTop: 50,
+    right: '35%',
+    marginTop: 60,
     width: '100%',
     height: '85%',
   },
