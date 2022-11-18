@@ -22,8 +22,8 @@ export default function BusMap() {
       
   }
   const styles = StyleSheet.create({
-    image: {
+    image: {     
         width: '100%',
-        height:'83%'
+        height:'100%'
     },
   });
