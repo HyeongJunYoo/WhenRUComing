@@ -1,6 +1,5 @@
 import * as React from 'react';
 import firestore from '@react-native-firebase/firestore';
-//import { doc, onSnapshot } from "firebase/firestore";
 
 import {
   StyleSheet,
@@ -85,7 +84,7 @@ const BusMain = ({route}) => {
                   }, 
                 );
               }}
-              >                
+              >          
               <Text style={styles.buttonTextStyle2}>앱 종료</Text>            
             </TouchableOpacity>
     </View>

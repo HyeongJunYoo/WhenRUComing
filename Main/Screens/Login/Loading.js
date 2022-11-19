@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, { useRef} from 'react';
 import {Easing, StyleSheet, View, Image, Animated} from 'react-native';
 
 function Loading() {

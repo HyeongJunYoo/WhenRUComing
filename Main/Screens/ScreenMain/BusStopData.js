@@ -30,6 +30,7 @@ const giToSyal_4 = new Coord(37.273905, 127.130606); //샬룸관 가는 길 꺽�
 const syallomgwan = new Coord(37.274591, 127.1302398); //샬룸관
 const syalToBon = new Coord(37.274757, 127.130196); //샬룸관 -> 본관 길 꺽이는 곳
 
+
 //목적지
 const destination = [
   bongwan,
@@ -90,3 +91,5 @@ const bonToi = bongwan.distance(igonggwan);
 //전체 노선 길이
 const busRouteDist =
   bToInDist + inToGiDist + giToSyalDist + syalToBonDist + bonToi;
+
+
