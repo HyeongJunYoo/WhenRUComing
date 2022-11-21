@@ -168,7 +168,7 @@ function LoginStudent({navigation}) {
               <TouchableOpacity
                 style={styles.buttonStyle}
                 activeOpacity={0.5}
-                onPress={handleSubmitPress}>
+                onPress={() => navigation.navigate('HomeMain')}>
                 <Text style={styles.buttonTextStyle}>로그인</Text>
               </TouchableOpacity>
               <TouchableOpacity
