@@ -1,4 +1,4 @@
-import React, { useRef} from 'react';
+import React, {useRef} from 'react';
 import {Easing, StyleSheet, View, Image, Animated} from 'react-native';
 
 function Loading() {
@@ -25,12 +25,14 @@ function Loading() {
         style={[styles.bus_bottom, {transform: [{translateX: speed}]}]}>
         <Image
           source={require('../../Image/bus_bottom.png')}
-          style={styles.bus_bottom}/>
+          style={styles.bus_bottom}
+        />
       </Animated.View>
       <Animated.View style={[styles.bus_top, {transform: [{rotateY: spin}]}]}>
         <Image
           source={require('../../Image/bus_top.png')}
-          style={styles.bus_top}/>
+          style={styles.bus_top}
+        />
       </Animated.View>
     </View>
   );

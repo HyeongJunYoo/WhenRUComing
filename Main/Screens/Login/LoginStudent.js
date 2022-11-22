@@ -83,81 +83,83 @@ function LoginStudent({navigation}) {
   };
   return loading ? (
     <Loading />
-  ) : (<View style={styles.mainBody}>
-    <View style={styles.Group752}>
-    <Image
-      style={styles.RemovebgPreview1}
-      source={require('../../Image/bus_title.png')}
-    />
-    <View>
-    <TextInput
-      style={styles.Txt439}
-      onChangeText={(userId) =>
-        setForm({...form, userId : userId})
-      }
-      placeholder="이메일"
-      placeholderTextColor="#8b9cb5"
-      autoCapitalize="none"                
-      returnKeyType="next"
-      onSubmitEditing={() =>
-        passwordInputRef.current &&
-        passwordInputRef.current.focus()
-      }
-      underlineColorAndroid="#f000"
-      blurOnSubmit={false}/>
-    </View>
-    <View>
-    <TextInput
-      style={styles.Txt439}
-      onChangeText={(userPassword) =>
-        setForm({...form, userPassword : userPassword})
-      }
-      placeholder="비밀번호" //12345
-      placeholderTextColor="#8b9cb5"
-      keyboardType="hide"
-      ref={passwordInputRef}
-      onSubmitEditing={Keyboard.dismiss}
-      blurOnSubmit={false}
-      secureTextEntry={true}
-      underlineColorAndroid="#f000"
-      returnKeyType="next"/>
-    </View>
-    <View>
-      <TouchableOpacity
-        style={styles.S_login_button}
-        activeOpacity={0.5}
-        onPress={handleSubmitPress}>
-        <Text style={styles.Txt728}>로그인</Text>
-      </TouchableOpacity>    
-    </View>
-    <View>
-      <TouchableOpacity
-          style={styles.J_Membership_button}
-          activeOpacity={0.5}
-          onPress={()=> navigation.navigate("SignUp")}>
-          <Text style={styles.Membership}>강남대학생이신가요?  회원가입하기</Text>
-        </TouchableOpacity>
-    </View>
-      <View style={styles.Line1} />
-        <View >
-            <TouchableOpacity
-              style={styles.B_login_button}
-              activeOpacity={0.5}
-              onPress={()=> navigation.navigate("LoginBus")}>
+  ) : (
+    <View style={styles.mainBody}>
+      <View style={styles.Group752}>
+        <Image
+          style={styles.RemovebgPreview1}
+          source={require('../../Image/bus_title.png')}
+        />
+        <View>
+          <TextInput
+            style={styles.Txt439}
+            onChangeText={userId => setForm({...form, userId: userId})}
+            placeholder="이메일"
+            placeholderTextColor="#8b9cb5"
+            autoCapitalize="none"
+            returnKeyType="next"
+            onSubmitEditing={() =>
+              passwordInputRef.current && passwordInputRef.current.focus()
+            }
+            underlineColorAndroid="#f000"
+            blurOnSubmit={false}
+          />
+        </View>
+        <View>
+          <TextInput
+            style={styles.Txt439}
+            onChangeText={userPassword =>
+              setForm({...form, userPassword: userPassword})
+            }
+            placeholder="비밀번호" //12345
+            placeholderTextColor="#8b9cb5"
+            keyboardType="hide"
+            ref={passwordInputRef}
+            onSubmitEditing={Keyboard.dismiss}
+            blurOnSubmit={false}
+            secureTextEntry={true}
+            underlineColorAndroid="#f000"
+            returnKeyType="next"
+          />
+        </View>
+        <View>
+          <TouchableOpacity
+            style={styles.S_login_button}
+            activeOpacity={0.5}
+            onPress={() => navigation.navigate('HomeMain')}>
+            <Text style={styles.Txt728}>로그인</Text>
+          </TouchableOpacity>
+        </View>
+        <View>
+          <TouchableOpacity
+            style={styles.J_Membership_button}
+            activeOpacity={0.5}
+            onPress={() => navigation.navigate('SignUp')}>
+            <Text style={styles.Membership}>
+              강남대학생이신가요? 회원가입하기
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.Line1} />
+        <View>
+          <TouchableOpacity
+            style={styles.B_login_button}
+            activeOpacity={0.5}
+            onPress={() => navigation.navigate('LoginBus')}>
             <Text style={styles.Txt898}>버스 기사 로그인</Text>
           </TouchableOpacity>
         </View>
       </View>
     </View>
   );
-};
+}
 export default LoginStudent;
 
 const styles = StyleSheet.create({
   Group752: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
   },
   RemovebgPreview1: {
     width: 164,
@@ -170,78 +172,78 @@ const styles = StyleSheet.create({
     paddingLeft: 8,
     //paddingRight: 154,
     marginBottom: 24,
-    backgroundColor: "rgba(245,245,245,1)",
+    backgroundColor: 'rgba(245,245,245,1)',
     borderWidth: 1,
-    borderStyle: "solid",
-    borderColor: "rgba(215,215,215,1)",
+    borderStyle: 'solid',
+    borderColor: 'rgba(215,215,215,1)',
     width: 221,
     height: 40,
     fontSize: 15,
-    fontFamily: "Inter, sans-serif",
-    fontWeight: "500",
-    color: "rgba(172,172,172,1)",
+    fontFamily: 'Inter, sans-serif',
+    fontWeight: '500',
+    color: 'rgba(172,172,172,1)',
     //textAlign: "center",
     //justifyContent: "center",
   },
   S_login_button: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "flex-start",
-    alignItems: "flex-start",
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
     paddingTop: 8,
     paddingBottom: 5,
     paddingLeft: 82,
     paddingRight: 80,
     marginBottom: 10,
     borderRadius: 5,
-    backgroundColor: "rgba(255,187,128,1)",
+    backgroundColor: 'rgba(255,187,128,1)',
   },
   Txt728: {
     fontSize: 20,
-    fontFamily: "Inter, sans-serif",
-    fontWeight: "400",
-    color: "rgba(255, 255, 255, 1)",
-    textAlign: "center",
-    justifyContent: "center",
+    fontFamily: 'Inter, sans-serif',
+    fontWeight: '400',
+    color: 'rgba(255, 255, 255, 1)',
+    textAlign: 'center',
+    justifyContent: 'center',
   },
   J_Membership_button: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "flex-start",
-    alignItems: "flex-start",
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
     marginBottom: 154,
-    marginTop: 20
+    marginTop: 20,
   },
   Membership: {
-    paddingLeft: "2%",
+    paddingLeft: '2%',
     fontSize: 12,
-    fontFamily: "Inter, sans-serif",
-    fontWeight: "400",
-    color: "rgba(255,187,128,1)",
-    textAlign: "center",
-    justifyContent: "center",
+    fontFamily: 'Inter, sans-serif',
+    fontWeight: '400',
+    color: 'rgba(255,187,128,1)',
+    textAlign: 'center',
+    justifyContent: 'center',
   },
   Line1: {
     borderWidth: 2,
-    borderStyle: "solid",
-    borderColor: "rgba(215,215,215,1)",
+    borderStyle: 'solid',
+    borderColor: 'rgba(215,215,215,1)',
     width: 220,
     height: 2,
     marginBottom: 24,
   },
   B_login_button: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "flex-start",
-    alignItems: "flex-start",
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
   },
   Txt898: {
     fontSize: 18,
-    fontFamily: "Inter, sans-serif",
-    fontWeight: "400",
-    color: "rgba(255,187,128,1)",
-    textAlign: "center",
-    justifyContent: "center",
+    fontFamily: 'Inter, sans-serif',
+    fontWeight: '400',
+    color: 'rgba(255,187,128,1)',
+    textAlign: 'center',
+    justifyContent: 'center',
   },
   mainBody: {
     flex: 1,

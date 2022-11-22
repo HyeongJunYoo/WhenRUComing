@@ -19,7 +19,7 @@ function HomeMain() {
             <MaterialCommunityIcons
               name="bus-marker"
               size={size}
-              color={'color'}
+              color={color}
             />
           ),
         }}

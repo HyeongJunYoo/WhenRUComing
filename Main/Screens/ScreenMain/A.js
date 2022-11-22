@@ -1,12 +1,6 @@
 import * as React from 'react';
 // Import React and Component
-import {
-  View,
-  Text,
-  StyleSheet,
-  FlatList,
-  Image
-} from 'react-native';
+import {View, Text, StyleSheet, FlatList, Image} from 'react-native';
 
 const DATA = [
   {
@@ -41,38 +35,49 @@ const DATA = [
     id: '08',
     title: '8번째 정류장',
   },
+  {
+    id: '09',
+    title: '9번째 정류장',
+  },
+  {
+    id: '10',
+    title: '10번째 정류장',
+  },
+  {
+    id: '11',
+    title: '11번째 정류장',
+  },
 ];
 
-const Item = ({ title }) => (
+const Item = ({item}) => (
   <View style={styles.item}>
-    <View style={styles.line}/>
+    <View style={styles.line} />
     <Image
-          source={require('../../Image/arrow_icon.png')}
-          style={styles.arrow}
-          resizeMode="contain"/>
+      source={require('../../Image/arrow_icon.png')}
+      style={styles.arrow}
+      resizeMode="contain"
+    />
     <View style={styles.itemViewLine}>
-      <Text style={styles.title}>{title}</Text>
+      <Text style={styles.title}>{item.title}</Text>
     </View>
   </View>
 );
 export default function A() {
-  const renderItem = ({ item }) => (
-    <Item title={item.title} />
-  );
+  const renderItem = ({item}) => <Item item={item} />;
   return (
     <View style={styles.container}>
-      <View style={{flex : 1}}>
-      </View>
       <View style={styles.itemView}>
-      <FlatList
-        data={DATA}
-        renderItem={renderItem}
-        keyExtractor={item => item.id}/>
+        <FlatList
+          data={DATA}
+          renderItem={renderItem}
+          keyExtractor={item => item.id}
+        />
         <Image
           source={require('../../Image/bus_icon.png')}
           style={styles.bus}
-          resizeMode="contain"/>
-        </View>
+          resizeMode="contain"
+        />
+      </View>
     </View>
   );
 }
@@ -82,7 +87,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   itemView: {
-    flex:2
+    marginLeft: '25%',
   },
   itemViewLine: {
     height: '100%',
@@ -97,25 +102,26 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     marginVertical: 0,
     marginLeft: 10,
-    alignItems:'center',
+    alignItems: 'center',
   },
   title: {
     fontSize: 15,
     color: '#000000',
     marginLeft: 20,
   },
-  line:{
+  line: {
     height: '100%',
     borderRightWidth: 10,
-    borderRightColor:'#FEBE8C',
+    borderRightColor: '#FEBE8C',
   },
-  arrow:{
+  arrow: {
     width: 15,
     position: 'absolute',
     left: -2.4,
   },
-  bus:{
+  bus: {
     width: 30,
     position: 'absolute',
-  }
+    top: 0,
+  },
 });

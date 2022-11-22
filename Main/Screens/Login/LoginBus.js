@@ -7,9 +7,9 @@ import {
   Image,
   TouchableOpacity,
   Alert,
-  PermissionsAndroid
+  PermissionsAndroid,
 } from 'react-native';
-import firestore from '@react-native-firebase/firestore'; 
+import firestore from '@react-native-firebase/firestore';
 
 const LoginBus = ({navigation}) => {
   const [userId, setuserId] = useState('');
@@ -35,8 +35,7 @@ const LoginBus = ({navigation}) => {
         .get()
         .then(documentSnapshot => {
           try {
-            if(documentSnapshot.exists)
-            {
+            if (documentSnapshot.exists) {
               requestPermissions();
             }
           } catch (e) {
@@ -57,31 +56,29 @@ const LoginBus = ({navigation}) => {
   //비동기식으로 위치 동의 구하기
   async function requestPermissions() {
     if (Platform.OS === 'ios') {
-      try{
+      try {
         const auth = await Geolocation.requestAuthorization('whenInUse');
         if (auth === 'granted') {
           navigation.navigate('BusMain', {busNumber: userId});
-        }else{
-
+        } else {
         }
-    }catch(error) {
-      console.warn(error);
+      } catch (error) {
+        console.warn(error);
+      }
     }
-  }
 
     if (Platform.OS === 'android') {
-      try{
+      try {
         const granted = await PermissionsAndroid.request(
           PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
         );
         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
           //navigation을 사용하여 BusMain.js 페이지를 로드, param 값으로 busNumber: userId를 넘김
           navigation.navigate('BusMain', {busNumber: userId});
-          console.log("permission 승인완료~");
-        }else{
-
+          console.log('permission 승인완료~');
+        } else {
         }
-      }catch(error){
+      } catch (error) {
         console.warn(error);
       }
     }
@@ -89,46 +86,46 @@ const LoginBus = ({navigation}) => {
 
   return (
     <View style={styles.mainBody}>
-    <View style={styles.Group752}>
-      <Image
-        style={styles.RemovebgPreview1}
-        source={require('../../Image/bus_title.png')}
-      />
-      <View>
-      <TextInput
-          style={styles.Txt439}
-          onChangeText={userId => setuserId(userId)}
-          placeholder="버스 번호" //dummy@abc.com
-          placeholderTextColor="#8b9cb5"
-          autoCapitalize="none"
-          keyboardType="number-pad"
-          returnKeyType="next"
-          onSubmitEditing={() =>
-            passwordInputRef.current && passwordInputRef.current.focus()
-          }
-          underlineColorAndroid="#f000"
-          blurOnSubmit={false}
+      <View style={styles.Group752}>
+        <Image
+          style={styles.RemovebgPreview1}
+          source={require('../../Image/bus_title.png')}
         />
-      </View>
-      <View >
+        <View>
+          <TextInput
+            style={styles.Txt439}
+            onChangeText={userId => setuserId(userId)}
+            placeholder="버스 번호" //dummy@abc.com
+            placeholderTextColor="#8b9cb5"
+            autoCapitalize="none"
+            keyboardType="number-pad"
+            returnKeyType="next"
+            onSubmitEditing={() =>
+              passwordInputRef.current && passwordInputRef.current.focus()
+            }
+            underlineColorAndroid="#f000"
+            blurOnSubmit={false}
+          />
+        </View>
+        <View>
           <TouchableOpacity
             style={styles.S_login_button}
             activeOpacity={0.5}
-            onPress={(handleSubmitPress)}>
+            onPress={handleSubmitPress}>
             <Text style={styles.Txt728}>로그인</Text>
           </TouchableOpacity>
+        </View>
       </View>
     </View>
-  </View>
   );
 };
 export default LoginBus;
 
-const styles = StyleSheet.create({  
+const styles = StyleSheet.create({
   Group752: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
   },
   RemovebgPreview1: {
     width: 164,
@@ -141,40 +138,40 @@ const styles = StyleSheet.create({
     paddingLeft: 8,
     //paddingRight: 154,
     marginBottom: 24,
-    backgroundColor: "rgba(245,245,245,1)",
+    backgroundColor: 'rgba(245,245,245,1)',
     borderWidth: 1,
-    borderStyle: "solid",
-    borderColor: "rgba(215,215,215,1)",
+    borderStyle: 'solid',
+    borderColor: 'rgba(215,215,215,1)',
     width: 221,
     height: 40,
     fontSize: 15,
-    fontFamily: "Inter, sans-serif",
-    fontWeight: "500",
-    color: "rgba(172,172,172,1)",
+    fontFamily: 'Inter, sans-serif',
+    fontWeight: '500',
+    color: 'rgba(172,172,172,1)',
     //textAlign: "center",
     //justifyContent: "center",
   },
 
   S_login_button: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "flex-start",
-    alignItems: "flex-start",
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
     paddingTop: 8,
     paddingBottom: 5,
     paddingLeft: 82,
     paddingRight: 80,
     marginBottom: 164,
     borderRadius: 5,
-    backgroundColor: "rgba(255,187,128,1)",
+    backgroundColor: 'rgba(255,187,128,1)',
   },
   Txt728: {
     fontSize: 20,
-    fontFamily: "Inter, sans-serif",
-    fontWeight: "400",
-    color: "rgba(255, 255, 255, 1)",
-    textAlign: "center",
-    justifyContent: "center",
+    fontFamily: 'Inter, sans-serif',
+    fontWeight: '400',
+    color: 'rgba(255, 255, 255, 1)',
+    textAlign: 'center',
+    justifyContent: 'center',
   },
   mainBody: {
     flex: 1,

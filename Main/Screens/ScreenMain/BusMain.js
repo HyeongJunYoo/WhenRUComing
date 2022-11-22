@@ -12,15 +12,16 @@ import {
 
 import Geolocation from 'react-native-geolocation-service';
 
-const { useState, useEffect } = React
+const {useState, useEffect} = React;
 const BusMain = ({route}) => {
   const [busNumber, setBusNumber] = useState(route.params.busNumber);
-  const [N , setNumber] = useState(0);
+  const [N, setNumber] = useState(0);
   const bus = firestore().collection('bus');
 
-  useEffect(()=>{
-    bus.doc(busNumber).onSnapshot(documentSnapshot  => {
-          setNumber(documentSnapshot.data().student_NUM)});
+  useEffect(() => {
+    bus.doc(busNumber).onSnapshot(documentSnapshot => {
+      setNumber(documentSnapshot.data().student_NUM);
+    });
 
     //Geolocation.watchPosition을 사용해 실시간 좌표 얻기
     const watchId = Geolocation.watchPosition(
@@ -30,7 +31,7 @@ const BusMain = ({route}) => {
         const CurLongitude = JSON.stringify(position.coords.longitude);
         //좌표값이 존재할 경우 DB 업데이트
         if (CurLatitude && CurLongitude) {
-          console.log("서버로 좌표 전송 완료!");
+          console.log('서버로 좌표 전송 완료!');
           bus.doc(busNumber).update({latitude: CurLatitude});
           bus.doc(busNumber).update({longitude: CurLongitude});
         }
@@ -53,43 +54,45 @@ const BusMain = ({route}) => {
         Geolocation.clearWatch(watchId);
       }
     };
+  }, []);
 
-  },[])
-
-  return(
+  return (
     <View style={styles.mainBody}>
       <Text style={styles.registerTextStyle}>
-      {(() => { 
-                return N + " / 45";
-              })()}
+        {(() => {
+          return N + ' / 45';
+        })()}
       </Text>
       <TouchableOpacity
-              style={styles.buttonStyle2}
-              activeOpacity={0.5}
-              onPress={()=>{
-                Alert.alert(
-                  '앱 종료하기', // 제목
-                  '정말로 종료하시겠습니까?', // 설명
-                  [ // 버튼 추가
-                    { text: '취소', style: 'cancel'}, 
-                    { text: '종료', style: 'destructive', // 버튼 스타일 지정
-                      onPress: () => {  // 버튼 콜백함수 지정
-                        BackHandler.exitApp();
-                        
-                      },
-                    },
-                  ],
-                  { // 옵션 추가
-                    cancelable: true // 취소 버튼 활성화
-                  }, 
-                );
-              }}
-              >          
-              <Text style={styles.buttonTextStyle2}>앱 종료</Text>            
-            </TouchableOpacity>
+        style={styles.buttonStyle2}
+        activeOpacity={0.5}
+        onPress={() => {
+          Alert.alert(
+            '앱 종료하기', // 제목
+            '정말로 종료하시겠습니까?', // 설명
+            [
+              // 버튼 추가
+              {text: '취소', style: 'cancel'},
+              {
+                text: '종료',
+                style: 'destructive', // 버튼 스타일 지정
+                onPress: () => {
+                  // 버튼 콜백함수 지정
+                  BackHandler.exitApp();
+                },
+              },
+            ],
+            {
+              // 옵션 추가
+              cancelable: true, // 취소 버튼 활성화
+            },
+          );
+        }}>
+        <Text style={styles.buttonTextStyle2}>앱 종료</Text>
+      </TouchableOpacity>
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   mainBody: {
@@ -101,7 +104,7 @@ const styles = StyleSheet.create({
   rumain: {
     flex: 1,
     flexDirection: 'row',
-    marginTop: "10%"                
+    marginTop: '10%',
   },
   SectionStyle: {
     flexDirection: 'row',
@@ -133,10 +136,7 @@ const styles = StyleSheet.create({
     width: 100,
     alignItems: 'center',
     borderRadius: 30,
-    marginLeft: "39%",
-   
-  
-   
+    marginLeft: '39%',
   },
   buttonStyle3: {
     backgroundColor: '#7DE24E',
@@ -147,9 +147,9 @@ const styles = StyleSheet.create({
     width: 100,
     alignItems: 'center',
     borderRadius: 30,
-    marginLeft: "1%",
+    marginLeft: '1%',
     marginRight: 10,
-   
+
     marginBottom: 25,
   },
   buttonTextStyle: {
@@ -185,8 +185,8 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   bgImage: {
-    width: '100%', 
-    height: '100%'
+    width: '100%',
+    height: '100%',
   },
 });
 
