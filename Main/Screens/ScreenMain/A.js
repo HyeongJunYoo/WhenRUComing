@@ -5,8 +5,8 @@ import {
   Text,
   StyleSheet,
   FlatList,
+  Image
 } from 'react-native';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const DATA = [
   {
@@ -46,12 +46,10 @@ const DATA = [
 const Item = ({ title }) => (
   <View style={styles.item}>
     <View style={styles.line}/>
-    <MaterialCommunityIcons
-              style={styles.arrow}
-              name="arrow-down-drop-circle"
-              size={20}
-              color={'#cd853f'}
-            />
+    <Image
+          source={require('../../Image/arrow_icon.png')}
+          style={styles.arrow}
+          resizeMode="contain"/>
     <View style={styles.itemViewLine}>
       <Text style={styles.title}>{title}</Text>
     </View>
@@ -70,12 +68,10 @@ export default function A() {
         data={DATA}
         renderItem={renderItem}
         keyExtractor={item => item.id}/>
-            <MaterialCommunityIcons 
-              style={styles.bus}
-              name="bus"
-              size={30}
-              color={'red'}
-            />
+        <Image
+          source={require('../../Image/bus_icon.png')}
+          style={styles.bus}
+          resizeMode="contain"/>
         </View>
     </View>
   );
@@ -114,10 +110,12 @@ const styles = StyleSheet.create({
     borderRightColor:'#FEBE8C',
   },
   arrow:{
+    width: 15,
     position: 'absolute',
-    left: -5,
+    left: -2.4,
   },
   bus:{
+    width: 30,
     position: 'absolute',
   }
 });

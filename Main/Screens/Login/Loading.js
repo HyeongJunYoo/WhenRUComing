@@ -25,12 +25,12 @@ function Loading() {
         style={[styles.bus_bottom, {transform: [{translateX: speed}]}]}>
         <Image
           source={require('../../Image/bus_bottom.png')}
-          style={styles.bus_bottom}></Image>
+          style={styles.bus_bottom}/>
       </Animated.View>
       <Animated.View style={[styles.bus_top, {transform: [{rotateY: spin}]}]}>
         <Image
           source={require('../../Image/bus_top.png')}
-          style={styles.bus_top}></Image>
+          style={styles.bus_top}/>
       </Animated.View>
     </View>
   );
