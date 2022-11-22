@@ -6,6 +6,7 @@ import {
   StyleSheet,
   FlatList,
 } from 'react-native';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const DATA = [
   {
@@ -44,7 +45,16 @@ const DATA = [
 
 const Item = ({ title }) => (
   <View style={styles.item}>
-    <Text style={styles.title}>{title}</Text>
+    <View style={styles.line}/>
+    <MaterialCommunityIcons
+              style={styles.arrow}
+              name="arrow-down-drop-circle"
+              size={20}
+              color={'#cd853f'}
+            />
+    <View style={styles.itemViewLine}>
+      <Text style={styles.title}>{title}</Text>
+    </View>
   </View>
 );
 export default function A() {
@@ -53,36 +63,61 @@ export default function A() {
   );
   return (
     <View style={styles.container}>
-      <View style={styles.line}/>
-      <View style={styles.circle}/>
+      <View style={{flex : 1}}>
+      </View>
+      <View style={styles.itemView}>
       <FlatList
         data={DATA}
         renderItem={renderItem}
-        keyExtractor={item => item.id}
-      />
+        keyExtractor={item => item.id}/>
+            <MaterialCommunityIcons 
+              style={styles.bus}
+              name="bus"
+              size={30}
+              color={'red'}
+            />
+        </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row' 
+    flexDirection: 'row',
+  },
+  itemView: {
+    flex:2
+  },
+  itemViewLine: {
+    height: '100%',
+    width: '100%',
+    justifyContent: 'center',
+    borderBottomWidth: 1,
+    borderBottomColor: 'lightgrey',
   },
   item: {
+    flexDirection: 'row',
+    height: 70,
     backgroundColor: '#ffffff',
-    padding: 25,
-    marginVertical: 2,
-    marginHorizontal: 0,
+    marginVertical: 0,
+    marginLeft: 10,
+    alignItems:'center',
   },
   title: {
     fontSize: 15,
     color: '#000000',
-    textAlign: 'left'
+    marginLeft: 20,
   },
   line:{
-    width: '25%',
     height: '100%',
     borderRightWidth: 10,
-    borderRightColor:'#FEBE8C'
+    borderRightColor:'#FEBE8C',
+  },
+  arrow:{
+    position: 'absolute',
+    left: -5,
+  },
+  bus:{
+    position: 'absolute',
   }
 });

@@ -11,6 +11,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Loading from './Screens/Login/Loading';
 import LoginBus from './Screens/Login/LoginBus';
 import LoginStudent from './Screens/Login/LoginStudent';
+import SignUp from './Screens/Login/SignUp';
 import BusMain from './Screens/ScreenMain/BusMain';
 import HomeMain from './Screens/ScreenMain/HomeMain';
 import Busr from './Screens/ScreenMain/Busr';
@@ -66,6 +67,11 @@ const App = () => {
         <Stack.Screen
           name="LoginStudent"
           component={LoginStudent}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="SignUp"
+          component={SignUp}
           options={{headerShown: false}}
         />
         <Stack.Screen
