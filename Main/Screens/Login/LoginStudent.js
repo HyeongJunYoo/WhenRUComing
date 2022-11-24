@@ -215,7 +215,6 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   Membership: {
-    paddingLeft: '2%',
     fontSize: 12,
     fontFamily: 'Inter, sans-serif',
     fontWeight: '400',
