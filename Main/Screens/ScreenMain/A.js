@@ -141,8 +141,8 @@ export default function A() {
       <TouchableOpacity
         activeOpacity={0.5}
         onPress={() => {
-          arrive(nextDest);
           setNextDest(((Number(nextDest) + 1) % data.length).toString());
+          arrive(nextDest);
         }}>
         <Text style={{fontSize: 20}}>정류장 변경</Text>
       </TouchableOpacity>
