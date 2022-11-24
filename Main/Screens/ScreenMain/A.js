@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 // Import React and Component
 import {
   View,
@@ -7,6 +7,7 @@ import {
   FlatList,
   Image,
   TouchableOpacity,
+  Animated
 } from 'react-native';
 
 const DATA = [
@@ -18,7 +19,7 @@ const DATA = [
   {
     id: '1',
     title: '2번째 정류장',
-    destination: false,
+    destination: true,
   },
   {
     id: '2',
@@ -67,34 +68,50 @@ const DATA = [
   },
 ];
 
-const Item = ({item}) => (
-  <View style={styles.item}>
-    <View style={styles.icons}>
-      <View style={styles.line} />
-      <Image
-        source={require('../../Image/arrow_icon.png')}
-        style={styles.arrow}
-        resizeMode="contain"
-      />
-      {item.destination && (
-        <Image
-          source={require('../../Image/bus_icon.png')}
-          style={styles.bus}
-          resizeMode="contain"
-        />
-      )}
-    </View>
-    <View style={styles.itemViewLine}>
-      <Text style={styles.title}>{item.title}</Text>
-    </View>
-  </View>
-);
 
 export default function A() {
   const [data, setData] = useState(DATA);
-  const [index, setIndex] = useState('0');
+  const [nextDest, setNextDest] = useState('2');
+  const [distLeft, setDistLeft] = useState(0);
+  const animation = useRef(new Animated.Value(0)).current;
 
-  const press = id => {
+  const Item = ({item}) => (
+    <View style={styles.item}>
+      <View style={styles.icons}>
+        <View style={styles.line} />
+        <Image
+          source={require('../../Image/arrow_icon.png')}
+          style={styles.arrow}
+          resizeMode="contain"
+        />
+        {item.destination && (
+          <Animated.Image
+            source={require('../../Image/bus_icon.png')}
+            style={[styles.bus, {translateY: percent}]}
+            resizeMode="contain"
+          />
+        )}
+      </View>
+      <View style={styles.itemViewLine}>
+        <Text style={styles.title}>{item.title}</Text>
+      </View>
+    </View>
+  );
+
+  useEffect(() => {
+    Animated.timing(animation, {
+      toValue: distLeft,
+      duration: 0, 
+      useNativeDriver: true,
+    }).start(); 
+  }, [distLeft]);
+
+  const percent = animation.interpolate({
+    inputRange: [0, 100],
+        outputRange: [-70, 0]
+  });
+
+  const arrive = id => {
     setData(
       data.map(data =>
         data.id === id
@@ -107,14 +124,29 @@ export default function A() {
   const renderItem = ({item}) => <Item item={item} />;
   return (
     <View style={styles.container}>
+      <View style={{flexDirection: 'column', position:'absolute'}}>
       <TouchableOpacity
         activeOpacity={0.5}
         onPress={() => {
-          press(index);
-          setIndex(((Number(index) + 1) % data.length).toString());
+          if(distLeft >= 100){
+            setDistLeft(0);
+            setNextDest(((Number(nextDest) + 1) % data.length).toString());
+            arrive(nextDest);
+          }else{
+            setDistLeft((distLeft + 10));
+          }
         }}>
-        <Text style={styles.Txt728}>로그인</Text>
+        <Text style={{fontSize: 20}}> ++10%</Text>
       </TouchableOpacity>
+      <TouchableOpacity
+        activeOpacity={0.5}
+        onPress={() => {
+          arrive(nextDest);
+          setNextDest(((Number(nextDest) + 1) % data.length).toString());
+        }}>
+        <Text style={{fontSize: 20}}>정류장 변경</Text>
+      </TouchableOpacity>
+      </View>
       <View style={styles.itemView}>
         <FlatList
           data={data}
@@ -163,10 +195,12 @@ const styles = StyleSheet.create({
     position: 'absolute',
   },
   bus: {
-    width: 30,
+    height: 30,
     position: 'absolute',
+    //top: -50 ~ 20
   },
   icons: {
+    position: 'relative',
     alignItems: 'center',
     justifyContent: 'center',
   },
