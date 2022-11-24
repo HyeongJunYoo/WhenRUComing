@@ -1,94 +1,155 @@
-import React, {useState} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 // Import React and Component
-import {View, Text, StyleSheet, FlatList, Image} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  Image,
+  TouchableOpacity,
+  Animated
+} from 'react-native';
 
 const DATA = [
   {
-    id: '01',
+    id: '0',
     title: '1번째 정류장',
-    destination: true,
-  },
-  {
-    id: '02',
-    title: '2번째 정류장',
     destination: false,
   },
   {
-    id: '03',
+    id: '1',
+    title: '2번째 정류장',
+    destination: true,
+  },
+  {
+    id: '2',
     title: '3번째 정류장',
     destination: false,
   },
   {
-    id: '04',
+    id: '3',
     title: '4번째 정류장',
     destination: false,
   },
   {
-    id: '05',
+    id: '4',
     title: '5번째 정류장',
     destination: false,
   },
   {
-    id: '06',
+    id: '5',
     title: '6번째 정류장',
     destination: false,
   },
   {
-    id: '07',
+    id: '6',
     title: '7번째 정류장',
     destination: false,
   },
   {
-    id: '08',
+    id: '7',
     title: '8번째 정류장',
     destination: false,
   },
   {
-    id: '09',
+    id: '8',
     title: '9번째 정류장',
     destination: false,
   },
   {
-    id: '10',
+    id: '9',
     title: '10번째 정류장',
     destination: false,
   },
   {
-    id: '11',
+    id: '10',
     title: '11번째 정류장',
     destination: false,
   },
 ];
 
-const Item = ({item}) => (
-  <View style={styles.item}>
-    <View style={styles.icons}>
-      <View style={styles.line} />
-      <Image
-        source={require('../../Image/arrow_icon.png')}
-        style={styles.arrow}
-        resizeMode="contain"
-      />
-      {item.destination && (
+
+export default function A() {
+  const [data, setData] = useState(DATA);
+  const [nextDest, setNextDest] = useState('2');
+  const [distLeft, setDistLeft] = useState(0);
+  const animation = useRef(new Animated.Value(0)).current;
+
+  const Item = ({item}) => (
+    <View style={styles.item}>
+      <View style={styles.icons}>
+        <View style={styles.line} />
         <Image
-          source={require('../../Image/bus_icon.png')}
-          style={styles.bus}
+          source={require('../../Image/arrow_icon.png')}
+          style={styles.arrow}
           resizeMode="contain"
         />
-      )}
+        {item.destination && (
+          <Animated.Image
+            source={require('../../Image/bus_icon.png')}
+            style={[styles.bus, {translateY: percent}]}
+            resizeMode="contain"
+          />
+        )}
+      </View>
+      <View style={styles.itemViewLine}>
+        <Text style={styles.title}>{item.title}</Text>
+      </View>
     </View>
-    <View style={styles.itemViewLine}>
-      <Text style={styles.title}>{item.title}</Text>
-    </View>
-  </View>
-);
-export default function B() {
+  );
+
+  useEffect(() => {
+    Animated.timing(animation, {
+      toValue: distLeft,
+      duration: 0, 
+      useNativeDriver: true,
+    }).start(); 
+  }, [distLeft]);
+
+  const percent = animation.interpolate({
+    inputRange: [0, 100],
+        outputRange: [-70, 0]
+  });
+
+  const arrive = id => {
+    setData(
+      data.map(data =>
+        data.id === id
+          ? {...data, destination: true}
+          : {...data, destination: false},
+      ),
+    );
+  };
+
   const renderItem = ({item}) => <Item item={item} />;
   return (
     <View style={styles.container}>
+      <View style={{flexDirection: 'column', position:'absolute'}}>
+      <TouchableOpacity
+        activeOpacity={0.5}
+        onPress={() => {
+          if(distLeft >= 100){
+            setDistLeft(0);
+            setNextDest(((Number(nextDest) + 1) % data.length).toString());
+            arrive(nextDest);
+          }else{
+            setDistLeft((distLeft + 10));
+          }
+        }}>
+        <Text style={{fontSize: 20}}> ++10%</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        activeOpacity={0.5}
+        onPress={() => {
+          arrive(nextDest);
+          setNextDest(((Number(nextDest) + 1) % data.length).toString());
+        }}>
+        <Text style={{fontSize: 20}}>정류장 변경</Text>
+      </TouchableOpacity>
+      </View>
       <View style={styles.itemView}>
         <FlatList
-          data={DATA}
+          data={data}
           renderItem={renderItem}
           keyExtractor={item => item.id}
         />
@@ -134,10 +195,12 @@ const styles = StyleSheet.create({
     position: 'absolute',
   },
   bus: {
-    width: 30,
+    height: 30,
     position: 'absolute',
+    //top: -50 ~ 20
   },
   icons: {
+    position: 'relative',
     alignItems: 'center',
     justifyContent: 'center',
   },
