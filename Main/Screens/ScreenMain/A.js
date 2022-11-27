@@ -34,7 +34,7 @@ export default function A() {
     console.log("Error getting document:", error);
   });
 };
-//test
+
   // 지점 별 거리 계산 식
   const Bus1 = (X1,Y1,X2,Y2) => {
     let bus = Math.pow(X2-X1,2) + Math.pow(Y2-Y1,2)
