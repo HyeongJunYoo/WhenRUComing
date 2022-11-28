@@ -7,67 +7,99 @@ import {
   FlatList,
   Image,
   TouchableOpacity,
-  Animated
+  Animated,
 } from 'react-native';
 
 const DATA = [
   {
     id: '0',
     title: '1번째 정류장',
-    destination: false,
+    nextStop01: false,
+    nextStop02: false,
+    nextStop03: false,
+    nextStop04: false,
   },
   {
     id: '1',
     title: '2번째 정류장',
-    destination: true,
+    nextStop01: true,
+    nextStop02: false,
+    nextStop03: false,
+    nextStop04: false,
   },
   {
     id: '2',
     title: '3번째 정류장',
-    destination: false,
+    nextStop01: false,
+    nextStop02: true,
+    nextStop03: false,
+    nextStop04: false,
   },
   {
     id: '3',
     title: '4번째 정류장',
-    destination: false,
+    nextStop01: false,
+    nextStop02: false,
+    nextStop03: true,
+    nextStop04: false,
   },
   {
     id: '4',
     title: '5번째 정류장',
-    destination: false,
+    nextStop01: false,
+    nextStop02: false,
+    nextStop03: false,
+    nextStop04: true,
   },
   {
     id: '5',
     title: '6번째 정류장',
-    destination: false,
+    nextStop01: false,
+    nextStop02: false,
+    nextStop03: false,
+    nextStop04: false,
   },
   {
     id: '6',
     title: '7번째 정류장',
-    destination: false,
+    nextStop01: false,
+    nextStop02: false,
+    nextStop03: false,
+    nextStop04: false,
   },
   {
     id: '7',
     title: '8번째 정류장',
-    destination: false,
+    nextStop01: false,
+    nextStop02: false,
+    nextStop03: false,
+    nextStop04: false,
   },
   {
     id: '8',
     title: '9번째 정류장',
-    destination: false,
+    nextStop01: false,
+    nextStop02: false,
+    nextStop03: false,
+    nextStop04: false,
   },
   {
     id: '9',
     title: '10번째 정류장',
-    destination: false,
+    nextStop01: false,
+    nextStop02: false,
+    nextStop03: false,
+    nextStop04: false,
   },
   {
     id: '10',
     title: '11번째 정류장',
-    destination: false,
+    nextStop01: false,
+    nextStop02: false,
+    nextStop03: false,
+    nextStop04: false,
   },
 ];
-
 
 export default function A() {
   const [data, setData] = useState(DATA);
@@ -84,7 +116,30 @@ export default function A() {
           style={styles.arrow}
           resizeMode="contain"
         />
-        {item.destination && (
+        {item.nextStop01 && (
+          <Animated.Image
+            source={require('../../Image/bus_icon.png')}
+            style={[styles.bus, {translateY: percent}]}
+            resizeMode="contain"
+          />
+        )}
+
+        {item.nextStop02 && (
+          <Animated.Image
+            source={require('../../Image/bus_icon.png')}
+            style={[styles.bus, {translateY: percent}]}
+            resizeMode="contain"
+          />
+        )}
+
+        {item.nextStop03 && (
+          <Animated.Image
+            source={require('../../Image/bus_icon.png')}
+            style={[styles.bus, {translateY: percent}]}
+            resizeMode="contain"
+          />
+        )}
+        {item.nextStop04 && (
           <Animated.Image
             source={require('../../Image/bus_icon.png')}
             style={[styles.bus, {translateY: percent}]}
@@ -101,22 +156,22 @@ export default function A() {
   useEffect(() => {
     Animated.timing(animation, {
       toValue: distLeft,
-      duration: 0, 
+      duration: 0,
       useNativeDriver: true,
-    }).start(); 
+    }).start();
   }, [distLeft]);
 
   const percent = animation.interpolate({
     inputRange: [0, 100],
-        outputRange: [-70, 0]
+    outputRange: [-70, 0],
   });
 
   const arrive = id => {
     setData(
       data.map(data =>
         data.id === id
-          ? {...data, destination: true}
-          : {...data, destination: false},
+          ? {...data, nextStop01: true}
+          : {...data, nextStop01: false},
       ),
     );
   };
@@ -124,28 +179,28 @@ export default function A() {
   const renderItem = ({item}) => <Item item={item} />;
   return (
     <View style={styles.container}>
-      <View style={{flexDirection: 'column', position:'absolute'}}>
-      <TouchableOpacity
-        activeOpacity={0.5}
-        onPress={() => {
-          if(distLeft >= 100){
-            setDistLeft(0);
+      <View style={{flexDirection: 'column', position: 'absolute'}}>
+        <TouchableOpacity
+          activeOpacity={0.5}
+          onPress={() => {
+            if (distLeft >= 100) {
+              setDistLeft(0);
+              setNextDest(((Number(nextDest) + 1) % data.length).toString());
+              arrive(nextDest);
+            } else {
+              setDistLeft(distLeft + 10);
+            }
+          }}>
+          <Text style={{fontSize: 20}}> ++10%</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          activeOpacity={0.5}
+          onPress={() => {
             setNextDest(((Number(nextDest) + 1) % data.length).toString());
             arrive(nextDest);
-          }else{
-            setDistLeft((distLeft + 10));
-          }
-        }}>
-        <Text style={{fontSize: 20}}> ++10%</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        activeOpacity={0.5}
-        onPress={() => {
-          setNextDest(((Number(nextDest) + 1) % data.length).toString());
-          arrive(nextDest);
-        }}>
-        <Text style={{fontSize: 20}}>정류장 변경</Text>
-      </TouchableOpacity>
+          }}>
+          <Text style={{fontSize: 20}}>정류장 변경</Text>
+        </TouchableOpacity>
       </View>
       <View style={styles.itemView}>
         <FlatList
@@ -197,7 +252,6 @@ const styles = StyleSheet.create({
   bus: {
     height: 30,
     position: 'absolute',
-    //top: -50 ~ 20
   },
   icons: {
     position: 'relative',
