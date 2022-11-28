@@ -1,5 +1,5 @@
 // Import React and Component
-import React, {useState, useEffect, createRef} from 'react';
+import React, {useState, createRef} from 'react';
 import {
   StyleSheet,
   TextInput,
@@ -10,52 +10,32 @@ import {
   TouchableOpacity,
   Alert,
 } from 'react-native';
-import Loading from './Loading';
-import {login, subscribeAuth} from '../../Screens/Login/Auth';
 
-function LoginStudent({navigation}) {
-  const [loading, setLoading] = useState(true);
+import {signUp} from './Auth';
+
+function SignUp() {
   const [form, setForm] = useState({
     userId: '',
     userPassword: '',
     confirmPassword: '',
   });
+
   const passwordInputRef = createRef();
 
-  useEffect(() => {
-    subscribeAuth(user => {
-      // user 판명을 듣고
-      if (user) {
-        // 있으면
-        navigation.reset({routes: [{name: 'HomeMain'}]});
-        console.log('로그인 유지됨!'); // 로그인 됨
-      } else {
-        navigation.navigate('LoginStudent');
-        console.log('로그아웃 상태!!'); // 로그인 안됨
-      }
-      setTimeout(() => {
-        setLoading(false);
-      }, 1000);
-    });
-  }, []);
-
-  const signInSubmit = async () => {
-    // 로그인 함수
-    const {userId, userPassword} = form;
-    const info = {userId, userPassword};
+  const signUpSubmit = async () => {
+    // 회원가입 함수
     console.log(form);
-    console.log(info);
     try {
-      const {user} = await login(info);
+      const {user} = await signUp(form);
       console.log(user);
     } catch (e) {
-      Alert.alert('로그인에 실패하였습니다.');
-      setLoading(false);
+      Alert.alert('회원가입에 실패하였습니다.');
       console.log(e);
     }
   };
 
   const handleSubmitPress = () => {
+    Keyboard.dismiss();
     if (!form.userId) {
       Alert.alert(
         '이메일 누락 확인',
@@ -76,14 +56,22 @@ function LoginStudent({navigation}) {
           onDismiss: () => {},
         },
       );
+    } else if (form.userPassword !== form.confirmPassword) {
+      Alert.alert(
+        '비밀번호 불일치 확인',
+        '비밀번호가 일치하지 않습니다',
+        [{text: '확인', onPress: () => {}, style: 'cancel'}],
+        {
+          cancelable: true, //취소버튼 활성화
+          onDismiss: () => {},
+        },
+      );
     } else {
-      signInSubmit();
-      setLoading(true);
+      signUpSubmit();
     }
   };
-  return loading ? (
-    <Loading />
-  ) : (
+
+  return (
     <View style={styles.mainBody}>
       <View style={styles.Group752}>
         <Image
@@ -122,38 +110,39 @@ function LoginStudent({navigation}) {
             returnKeyType="next"
           />
         </View>
+
+        <View>
+          <TextInput
+            style={styles.Txt439}
+            onChangeText={confirmPassword =>
+              setForm({...form, confirmPassword: confirmPassword})
+            }
+            placeholder="비밀번호확인" //12345
+            placeholderTextColor="#8b9cb5"
+            keyboardType="hide"
+            ref={passwordInputRef}
+            onSubmitEditing={Keyboard.dismiss}
+            blurOnSubmit={false}
+            secureTextEntry={true}
+            underlineColorAndroid="#f000"
+            returnKeyType="next"
+          />
+        </View>
         <View>
           <TouchableOpacity
             style={styles.S_login_button}
             activeOpacity={0.5}
-            onPress={() => navigation.navigate('HomeMain')}>
+            onPress={handleSubmitPress}>
             <Text style={styles.Txt728}>로그인</Text>
           </TouchableOpacity>
         </View>
-        <View>
-          <TouchableOpacity
-            style={styles.J_Membership_button}
-            activeOpacity={0.5}
-            onPress={() => navigation.navigate('SignUp')}>
-            <Text style={styles.Membership}>
-              강남대학생이신가요? 회원가입하기
-            </Text>
-          </TouchableOpacity>
-        </View>
+
         <View style={styles.Line1} />
-        <View>
-          <TouchableOpacity
-            style={styles.B_login_button}
-            activeOpacity={0.5}
-            onPress={() => navigation.navigate('LoginBus')}>
-            <Text style={styles.Txt898}>버스 기사 로그인</Text>
-          </TouchableOpacity>
-        </View>
       </View>
     </View>
   );
 }
-export default LoginStudent;
+export default SignUp;
 
 const styles = StyleSheet.create({
   Group752: {
@@ -185,6 +174,7 @@ const styles = StyleSheet.create({
     //textAlign: "center",
     //justifyContent: "center",
   },
+
   S_login_button: {
     display: 'flex',
     flexDirection: 'column',
@@ -194,7 +184,7 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
     paddingLeft: 82,
     paddingRight: 80,
-    marginBottom: 10,
+    marginBottom: 164,
     borderRadius: 5,
     backgroundColor: 'rgba(255,187,128,1)',
   },
@@ -206,22 +196,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     justifyContent: 'center',
   },
-  J_Membership_button: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
-    marginBottom: 154,
-    marginTop: 20,
-  },
-  Membership: {
-    fontSize: 12,
-    fontFamily: 'Inter, sans-serif',
-    fontWeight: '400',
-    color: 'rgba(255,187,128,1)',
-    textAlign: 'center',
-    justifyContent: 'center',
-  },
   Line1: {
     borderWidth: 2,
     borderStyle: 'solid',
@@ -229,20 +203,6 @@ const styles = StyleSheet.create({
     width: 220,
     height: 2,
     marginBottom: 24,
-  },
-  B_login_button: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
-  },
-  Txt898: {
-    fontSize: 18,
-    fontFamily: 'Inter, sans-serif',
-    fontWeight: '400',
-    color: 'rgba(255,187,128,1)',
-    textAlign: 'center',
-    justifyContent: 'center',
   },
   mainBody: {
     flex: 1,

@@ -10,11 +10,13 @@ import {
   Alert,
   BackHandler,
   Image
+  
 } from 'react-native';
 
 import Geolocation from 'react-native-geolocation-service';
 
 //import AsyncStorage from "@react-native-async-storage/async-storage";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const { useState, useEffect } = React
@@ -22,24 +24,128 @@ const BusMain = ({route}) => {
   const [busNumber, setBusNumber] = useState(route.params.busNumber);
   const [N , setNumber] = useState(0);
   const bus = firestore().collection('bus');
+  const isEmpty = function (value) {
+    if (value === '' || value === null || value === undefined || (value !== null && typeof value === 'object' && !Object.keys(value).length)) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+  
+  // AsyncStorage get 함수 모듈
+  const getItemFromAsync = (storageName) => {
+    if (isEmpty(storageName)) {
+      console.log('작동안됨')
+      return true
+      //throw Error('Storage Name is empty');
+    }
+    
+    return new Promise((resolve, reject) => {
+      AsyncStorage.getItem(storageName, (err, result) => {
+        if (err) {
+          reject(err);
+        }
+        
+        if (result === null) {
+          resolve(null);
+        }
+        console.log('Done.1')
+        resolve(JSON.parse(result));
+      });
+    });
+  };
+  
+  // AsyncStorage set 함수 모듈
+  const setItemToAsync = (storageName, item) => {
+    if (isEmpty(storageName)) {
+      throw Error('Storage Name is empty');
+    }
+  
+    return new Promise((resolve, reject) => {
+      AsyncStorage.setItem(storageName, JSON.stringify(item), (error) => {
+        if (error) {
+          reject(error);
+        }
+        console.log('Done.')
+        resolve('입력 성공');
+      });
+    });
+  };
 
   useEffect(()=>{
     bus.doc(busNumber).onSnapshot(documentSnapshot  => {
           setNumber(documentSnapshot.data().student_NUM)});
+          const array = ['0', '1', '2','3','4','5','6'];
+          const busst = [le, B ,BIn, InGi, GiSa];
 
+          
     //Geolocation.watchPosition을 사용해 실시간 좌표 얻기
     const watchId = Geolocation.watchPosition(
       position => {
         //JSON 문자열로 변환하여 위도와 경도값 받아오기
-        const CurLatitude = JSON.stringify(((position.coords.latitude)));
-        const CurLongitude = JSON.stringify(((position.coords.longitude)));
+
+       
+        if( getItemFromAsync("busstop")){
+          setItemToAsync("busstop",{"le":0,"B":0,"IN":0,"GI":1,"SA":0,"B1":0,"Le1":0})
+        }
+        //만약 정보가 없을 경우 생성
+        
+        
+          var busstop =0
+          var busstoplength
+          var busd
+          var sum=0
+          AsyncStorage.getItem("busstop", (err, result) => {
+            const UserInfo = JSON.parse(result);
+            
+            if(UserInfo.le==1){
+              busstop=1;
+              busstoplength=0
+            }else if(UserInfo.B==1){
+              busstop=1;
+              busstoplength=1
+            }else if(UserInfo.IN==1){
+              busstop=1;
+              busstoplength=2
+            }else if(UserInfo.GI==1){
+              busstop=1;
+              busstoplength=3
+            }else if(UserInfo.SA==1){
+              busstop=1;
+              busstoplength=4
+            }else if(UserInfo.B1==1){
+              busstop=1;
+              busstoplength=5
+            }else if(UserInfo.Le1==1){
+              busstop=1;
+              busstoplength=6
+            }
+          for(var i=1; i<busst[busstoplength].length-1;i++ ){
+            sum +=Bus1(busst[busstoplength][i].X,busst[busstoplength][i].Y,busst[busstoplength][i+1].X,busst[busstoplength][i+1].Y)
+            console.log(sum);
+          }
+          sum +=Bus1(JSON.stringify(((position.coords.latitude))),JSON.stringify(((position.coords.longitude))),busst[busstoplength][0].X,busst[busstoplength][0].Y)
+          console.log(sum); 
+          console.log(JSON.stringify(((position.coords.latitude)))); 
+          console.log(JSON.stringify(((position.coords.longitude))));
+          console.log(busst[3].length);
+
+          const CurLatitude = sum;
+          const CurLongitude = busstoplength;
+          if (CurLatitude && CurLongitude) {
+            console.log("서버로 좌표 전송 완료!");
+            bus.doc(busNumber).update({latitude: CurLatitude});
+            bus.doc(busNumber).update({longitude: CurLongitude});
+          }
+          });
+
+       //const CurLatitude = JSON.stringify(((position.coords.latitude)));
+       // const CurLongitude = JSON.stringify(((position.coords.longitude)));
+
+      
        
         //좌표값이 존재할 경우 DB 업데이트
-        if (CurLatitude && CurLongitude) {
-          console.log("서버로 좌표 전송 완료!");
-          bus.doc(busNumber).update({latitude: CurLatitude});
-          bus.doc(busNumber).update({longitude: CurLongitude});
-        }
+       
       },
       //에러날 경우 코드, 메시지 로그 출력
       error => {
@@ -71,7 +177,8 @@ const Bus1 = (X1,Y1,X2,Y2) => {
   //   busResult=busResult/0.06
   //  busResult=busResult*60
   //   busResult= Math.round(busResult*100)/100
-  busResult= Math.ceil(busResult*10)/10
+  busResult= Math.ceil(busResult*100)/100
+  console.log('계산!')
   return busResult;
 };
 //각 지점 좌표
@@ -195,7 +302,8 @@ const GiSa =[
   Y: 127.130239 
 }
 ]
-
+// const array = ['0', '1', '2','3','4','5','6'];
+// const busst = [le, B ,BIn, InGi, GiSa];
 // const isEmpty = function (value) {
 //   if (value === '' || value === null || value === undefined || (value !== null && typeof value === 'object' && !Object.keys(value).length)) {
 //     return true;
@@ -207,6 +315,7 @@ const GiSa =[
 // // AsyncStorage get 함수 모듈
 // const getItemFromAsync = (storageName) => {
 //   if (isEmpty(storageName)) {
+//     console.log('작동안됨')
 //     return true
 //     //throw Error('Storage Name is empty');
 //   }
@@ -220,7 +329,7 @@ const GiSa =[
 //       if (result === null) {
 //         resolve(null);
 //       }
-      
+//       console.log('Done.1')
 //       resolve(JSON.parse(result));
 //     });
 //   });
@@ -237,24 +346,57 @@ const GiSa =[
 //       if (error) {
 //         reject(error);
 //       }
-      
+//       console.log('Done.')
 //       resolve('입력 성공');
 //     });
 //   });
 // };
-
-//도착 정보 확인 값 입력 키 값 0 ~ 6 0: 이공관 1: 본관 2: 인문사회관 3: 기흥역 4: 샬륨관 5:본관_2 6: 이공관_2
-
-//만약 정보가 없을 경우 생성
-// for(var i=0;i<7;i++){
-// if(getItemFromAsync(i)){
-//   if(i==3){
-//     setItemToAsync(i,1)
-//   }else{
-//     setItemToAsync(i,0)
-//   }
-//  }
+// if( getItemFromAsync("busstop")){
+//   setItemToAsync("busstop",{"le":0,"B":0,"IN":0,"GI":1,"SA":0,"B1":0,"Le1":0})
 // }
+// //만약 정보가 없을 경우 생성
+
+
+//   var busstop =0
+//   var busstoplength
+//   var busd
+//   var sum=0
+//   AsyncStorage.getItem("busstop", (err, result) => {
+//     const UserInfo = JSON.parse(result);
+//     console.log(UserInfo); 
+//     if(UserInfo.le==1){
+//       busstop=1;
+//       busstoplength=0
+//     }else if(UserInfo.B==1){
+//       busstop=1;
+//       busstoplength=1
+//     }else if(UserInfo.IN==1){
+//       busstop=1;
+//       busstoplength=2
+//     }else if(UserInfo.GI==1){
+//       busstop=1;
+//       busstoplength=3
+//     }else if(UserInfo.SA==1){
+//       busstop=1;
+//       busstoplength=4
+//     }else if(UserInfo.B1==1){
+//       busstop=1;
+//       busstoplength=5
+//     }else if(UserInfo.Le1==1){
+//       busstop=1;
+//       busstoplength=6
+//     }
+//   for(var i=1; i<busst[busstoplength].length-1;i++ ){
+//     sum +=Bus1(busst[busstoplength][i].X,busst[busstoplength][i].Y,busst[busstoplength][i+1].X,busst[busstoplength][i+1].Y)
+//     console.log(sum);
+//   }
+//   sum +=Bus1(37.123456,127.123456,busst[busstoplength][0].X,busst[busstoplength][0].Y)
+//      return sum
+//   });
+
+  
+//var temp1 =getItemFromAsync('buscheck')
+//console.log(temp1.check)
 //중간 지점 및 도착 채크 값(도착 짖점 영역 안에 있을 경우 1 없으면 0 ) 
 //7: 이공관 {in:0} 
 //8: 본관 {in:0} 
@@ -279,14 +421,16 @@ const GiSa =[
 // //각 지점 별 영역 도착 확인
 
 
-
+if( getItemFromAsync("busstop")){
+  setItemToAsync("busstop",{"le":0,"B":0,"IN":0,"GI":1,"SA":0,"B1":0,"Le1":0})
+}
 
 // //=======================
 
 // //인문관 -> 본관
 
 // if(getItemFromAsync(0)==1 && getItemFromAsync(1)==0){
-//           bus();
+//          
 // }else if(getItemFromAsync(1)==1 && getItemFromAsync(2)==0){
 
 // }else if(getItemFromAsync(2)==1 && getItemFromAsync(3)==0){
@@ -314,8 +458,9 @@ const GiSa =[
     <Text style={styles.Txt582}>{(() => { 
                 return 45-N;
               })()}</Text>
+           
     <Text style={styles.Txt671}>빈 좌석</Text>
-    <Text style={styles.Txt3710}>전체 좌석</Text>
+    <Text style={styles.Txt3710}>{}전체 좌석</Text>
      {/* <Image
       style={styles.Image3}
       source={{
@@ -323,7 +468,7 @@ const GiSa =[
       }}
     /> */}
     <View style={styles.Group440}>
-      <Text style={styles.Txt379}>탑승 인원</Text>
+      <Text style={styles.Txt379}>{}탑승 인원</Text>
       {//<Text style={styles.Txt203}>승하차 기록</Text>
       
      //<View style={styles.Rectangle22} />
@@ -355,7 +500,7 @@ const GiSa =[
                 );
               }}
               >                
-              <Text style={styles.Txt898}>앱 종료</Text>            
+              <Text style={styles.Txt898}>{}</Text>            
             </TouchableOpacity>
     </View> 
   </View>

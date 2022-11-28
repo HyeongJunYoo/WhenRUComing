@@ -84,6 +84,7 @@ project.ext.react = [
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
+apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
 
 /**
  * Set this to true to create two separate APKs instead of one:
@@ -255,7 +256,6 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
 
     //noinspection GradleDynamicVersion
-    
     implementation "com.facebook.react:react-native:+"  // From node_modules
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
@@ -263,7 +263,7 @@ dependencies {
     implementation 'androidx.multidex:multidex:2.0.1'
 
     implementation platform('com.google.firebase:firebase-bom:30.4.1')
-    implementation project(':react-native-sqlite-storage')
+
     implementation 'com.google.firebase:firebase-analytics'
     
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {

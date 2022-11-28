@@ -13,7 +13,6 @@ import com.test.newarchitecture.MainApplicationReactNativeHost;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import androidx.multidex.MultiDexApplication;
-import org.pgsqlite.SQLitePluginPackage;
 
 public class MainApplication extends MultiDexApplication  implements ReactApplication {
 
@@ -30,7 +29,6 @@ public class MainApplication extends MultiDexApplication  implements ReactApplic
           List<ReactPackage> packages = new PackageList(this).getPackages();
           // Packages that cannot be autolinked yet can be added manually here, for example:
           // packages.add(new MyReactNativePackage());
-          packages.add(new SQLitePluginPackage());
           return packages;
         }
 
