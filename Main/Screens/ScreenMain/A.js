@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   Animated,
 } from 'react-native';
+import firestore from '@react-native-firebase/firestore';
 
 const DATA = [
   {
@@ -31,7 +32,7 @@ const DATA = [
     id: '2',
     title: '3번째 정류장',
     nextStop01: false,
-    nextStop02: true,
+    nextStop02: false,
     nextStop03: false,
     nextStop04: false,
   },
@@ -40,7 +41,7 @@ const DATA = [
     title: '4번째 정류장',
     nextStop01: false,
     nextStop02: false,
-    nextStop03: true,
+    nextStop03: false,
     nextStop04: false,
   },
   {
@@ -49,7 +50,7 @@ const DATA = [
     nextStop01: false,
     nextStop02: false,
     nextStop03: false,
-    nextStop04: true,
+    nextStop04: false,
   },
   {
     id: '5',
@@ -106,7 +107,14 @@ export default function A() {
   const [nextDest, setNextDest] = useState('2');
   const [distLeft, setDistLeft] = useState(0);
   const animation = useRef(new Animated.Value(0)).current;
+  const bus = firestore().collection('bus');
 
+  useEffect(() => {
+    bus.doc(1234).onSnapshot(documentSnapshot => {
+      setNextDest(documentSnapshot.data().longtitude);
+      setDistLeft(documentSnapshot.data().latitude);
+    });
+  }, []);
   const Item = ({item}) => (
     <View style={styles.item}>
       <View style={styles.icons}>
