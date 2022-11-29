@@ -76,8 +76,9 @@ const BusMain = ({route}) => {
     bus.doc(busNumber).onSnapshot(documentSnapshot  => {
           setNumber(documentSnapshot.data().student_NUM)});
           const array = ['0', '1', '2','3','4','5','6'];
-          const busst = [le, B ,BIn, InGi, GiSa];
-
+          const busst = [le, B ,BIn, InGi, GiSa, SaB,BIe];
+          const bussum = [0.15, 0.22 ,1.95, 1.7, 0.21, 0.15];
+          const busstopc = ["bustop1", "bustop2", "bustop3", "bustop4", "bustop5", "bustop6", "bustop7"];
           
     //Geolocation.watchPosition을 사용해 실시간 좌표 얻기
     const watchId = Geolocation.watchPosition(
@@ -86,52 +87,87 @@ const BusMain = ({route}) => {
 
        
         if( getItemFromAsync("busstop")){
-          setItemToAsync("busstop",{"le":0,"B":0,"IN":0,"GI":1,"SA":0,"B1":0,"Le1":0})
+          setItemToAsync("busstop",{"le":0,"B":0,"IN":0,"GI":1,"SA":0,"B1":0,"Le1":0 ,"bustemp":10, "bustop1":1})
         }
+        
         //만약 정보가 없을 경우 생성
         
         
           var busstop =0
           var busstoplength
-          var busd
+          var bustemp
           var sum=0
+          var i
           AsyncStorage.getItem("busstop", (err, result) => {
             const UserInfo = JSON.parse(result);
             
             if(UserInfo.le==1){
               busstop=1;
               busstoplength=0
+              
             }else if(UserInfo.B==1){
               busstop=1;
               busstoplength=1
+              
             }else if(UserInfo.IN==1){
               busstop=1;
               busstoplength=2
+              
             }else if(UserInfo.GI==1){
               busstop=1;
               busstoplength=3
+              
             }else if(UserInfo.SA==1){
               busstop=1;
               busstoplength=4
+              
             }else if(UserInfo.B1==1){
               busstop=1;
               busstoplength=5
+              
             }else if(UserInfo.Le1==1){
               busstop=1;
               busstoplength=6
+              
             }
           for(var i=1; i<busst[busstoplength].length-1;i++ ){
             sum +=Bus1(busst[busstoplength][i].X,busst[busstoplength][i].Y,busst[busstoplength][i+1].X,busst[busstoplength][i+1].Y)
             console.log(sum);
           }
-          sum +=Bus1(JSON.stringify(((position.coords.latitude))),JSON.stringify(((position.coords.longitude))),busst[busstoplength][0].X,busst[busstoplength][0].Y)
+          sum +=Bus1(JSON.stringify(((position.coords.latitude))),JSON.stringify(((position.coords.longitude))),busst[busstoplength][0].X,busst[busstoplength][0].Y)       
+          sum= 100-sum*100/bussum[busstoplength-1]
           console.log(sum); 
-          console.log(JSON.stringify(((position.coords.latitude)))); 
-          console.log(JSON.stringify(((position.coords.longitude))));
-          console.log(busst[3].length);
+        
+          // bustemp=busst[busstoplength].length
+          // console.log(bustemp);
+          // console.log("temp: "+UserInfo.bustemp);
+          // console.log(busst[busstoplength].length-bustemp)
 
-          const CurLatitude = sum;
-          const CurLongitude = busstoplength;
+          // if(UserInfo.bustop1==1  && ((Bus1(JSON.stringify(((position.coords.latitude))),JSON.stringify(((position.coords.longitude)))  ,busst[busstoplength][busst[busstoplength].length- bustemp].X,busst[busst[busstoplength]][busst[busstoplength].length-bustemp].Y)) < 0.5)){
+          //   setItemToAsync("busstop",{"bustop1":0,"bustemp":busst[busstoplength].length-1})
+          // }else if(Bus1(JSON.stringify(((position.coords.latitude))),JSON.stringify(((position.coords.longitude))),busst[busstoplength][busst[busstoplength].length - UserInfo.bustemp].X,busst[busst[busstoplength]][busst[busstoplength].length - UserInfo.bustemp].Y) < 0.5){           
+            
+          //   setItemToAsync("busstop",{"bustemp":UserInfo.bustem-1})
+          //   setItemToAsync("busstop",{"bustop1":UserInfo.bustop1+1})
+            
+          // }
+          // for( i=UserInfo.bustop1; i<bustemp-1;i++ ){
+          //   console.log(i);
+          //   sum +=Bus1(busst[busstoplength][i].X,busst[busstoplength][i].Y,busst[busstoplength][i+1].X,busst[busstoplength][i+1].Y)
+           
+          // }
+          // console.log(busst[busstoplength][busst[busstoplength].length])
+          // if(UserInfo.bustemp==10){
+          // sum +=Bus1(JSON.stringify(((position.coords.latitude))),JSON.stringify(((position.coords.longitude)))  ,busst[busstoplength][busst[busstoplength].length -UserInfo.bustem].X,busst[busstoplength-bustemp][busst[busstoplength].length -UserInfo.bustem].Y)
+          // }else{
+          //   sum +=Bus1(JSON.stringify(((position.coords.latitude))),JSON.stringify(((position.coords.longitude)))  ,busst[busstoplength][busst[busstoplength].length -UserInfo.bustem].X,busst[busstoplength-bustemp][busst[busstoplength].length -UserInfo.bustem].Y)
+          // }
+          // sum= 100-sum*100/bussum[busstoplength-1]
+          // console.log(sum); 
+         
+
+         const CurLatitude = sum;
+         const CurLongitude = busstoplength;
           if (CurLatitude && CurLongitude) {
             console.log("서버로 좌표 전송 완료!");
             bus.doc(busNumber).update({latitude: CurLatitude});
@@ -173,10 +209,6 @@ const BusMain = ({route}) => {
 const Bus1 = (X1,Y1,X2,Y2) => {
   let bus = Math.pow(X2-X1,2) + Math.pow(Y2-Y1,2)
   let busResult = Math.sqrt(bus)*100
- // busResult= busResult/20*60
-  //   busResult=busResult/0.06
-  //  busResult=busResult*60
-  //   busResult= Math.round(busResult*100)/100
   busResult= Math.ceil(busResult*100)/100
   console.log('계산!')
   return busResult;
@@ -265,7 +297,7 @@ const InGi =[
 ]
 
 const GiSa =[
-{
+ {
   id: 1,
 //   name: GiSa,  // 샬룸관 가는 길 사거리
   X: 37.275994  ,
@@ -302,123 +334,41 @@ const GiSa =[
   Y: 127.130239 
 }
 ]
-// const array = ['0', '1', '2','3','4','5','6'];
-// const busst = [le, B ,BIn, InGi, GiSa];
-// const isEmpty = function (value) {
-//   if (value === '' || value === null || value === undefined || (value !== null && typeof value === 'object' && !Object.keys(value).length)) {
-//     return true;
-//   } else {
-//     return false;
-//   }
-// };
+const SaB =[
+  {
+    id: 1,
+  //   name: GiSa,  // 샬룸관 앞 꺽이는 길
+    X: 37.274761  ,
+    Y: 127.130193  
+  },
+  {
+    id: 2,
+  //    name: GiSa1,   // 본관 ->인문 꺽이는 길 2
+  X: 37.275651     ,
+  Y: 127.131907  
+  },
+  {
+    id: 3,
+  //    name: GiSa2,  //본관 ->인문 꺽이는 길 1
+  X: 37.275204     ,
+  Y: 127.132472 
+  },
+  {
+    id: 4,
+  //   name: frontGate1,  // 본관 좌표
+    X: 37.275715    ,
+    Y: 127.133373  
+  },
+  ]
+  const BIe =[
+    {
+      id: 1,
+      //name: IeX , // 이공간 좌표
+      X: 37.276682   ,
+      Y: 127.134465 
+    },
+    ]
 
-// // AsyncStorage get 함수 모듈
-// const getItemFromAsync = (storageName) => {
-//   if (isEmpty(storageName)) {
-//     console.log('작동안됨')
-//     return true
-//     //throw Error('Storage Name is empty');
-//   }
-  
-//   return new Promise((resolve, reject) => {
-//     AsyncStorage.getItem(storageName, (err, result) => {
-//       if (err) {
-//         reject(err);
-//       }
-      
-//       if (result === null) {
-//         resolve(null);
-//       }
-//       console.log('Done.1')
-//       resolve(JSON.parse(result));
-//     });
-//   });
-// };
-
-// // AsyncStorage set 함수 모듈
-// const setItemToAsync = (storageName, item) => {
-//   if (isEmpty(storageName)) {
-//     throw Error('Storage Name is empty');
-//   }
-
-//   return new Promise((resolve, reject) => {
-//     AsyncStorage.setItem(storageName, JSON.stringify(item), (error) => {
-//       if (error) {
-//         reject(error);
-//       }
-//       console.log('Done.')
-//       resolve('입력 성공');
-//     });
-//   });
-// };
-// if( getItemFromAsync("busstop")){
-//   setItemToAsync("busstop",{"le":0,"B":0,"IN":0,"GI":1,"SA":0,"B1":0,"Le1":0})
-// }
-// //만약 정보가 없을 경우 생성
-
-
-//   var busstop =0
-//   var busstoplength
-//   var busd
-//   var sum=0
-//   AsyncStorage.getItem("busstop", (err, result) => {
-//     const UserInfo = JSON.parse(result);
-//     console.log(UserInfo); 
-//     if(UserInfo.le==1){
-//       busstop=1;
-//       busstoplength=0
-//     }else if(UserInfo.B==1){
-//       busstop=1;
-//       busstoplength=1
-//     }else if(UserInfo.IN==1){
-//       busstop=1;
-//       busstoplength=2
-//     }else if(UserInfo.GI==1){
-//       busstop=1;
-//       busstoplength=3
-//     }else if(UserInfo.SA==1){
-//       busstop=1;
-//       busstoplength=4
-//     }else if(UserInfo.B1==1){
-//       busstop=1;
-//       busstoplength=5
-//     }else if(UserInfo.Le1==1){
-//       busstop=1;
-//       busstoplength=6
-//     }
-//   for(var i=1; i<busst[busstoplength].length-1;i++ ){
-//     sum +=Bus1(busst[busstoplength][i].X,busst[busstoplength][i].Y,busst[busstoplength][i+1].X,busst[busstoplength][i+1].Y)
-//     console.log(sum);
-//   }
-//   sum +=Bus1(37.123456,127.123456,busst[busstoplength][0].X,busst[busstoplength][0].Y)
-//      return sum
-//   });
-
-  
-//var temp1 =getItemFromAsync('buscheck')
-//console.log(temp1.check)
-//중간 지점 및 도착 채크 값(도착 짖점 영역 안에 있을 경우 1 없으면 0 ) 
-//7: 이공관 {in:0} 
-//8: 본관 {in:0} 
-//9:인문사회관 {in:0,step1:0,step2:0}
-//10: 기흥역 {in:0 step1:0,step2:0.step3:0, step4:0,step5:0,step6:0}
-//11: 샬룸관 {in:0 step1:0,step2:0.step3:0, step4:0,step5:0}
-
-//만약 정보가 없을 경우 생성
-// for(var i=7;i<12;i++){
-//   if(getItemFromAsync(i)){
-//     if(i==9){
-//       setItemToAsync(i,{in:0,step1:0,step2:0})
-//     }else if(i==10){
-//       setItemToAsync(i,{in:0, step1:0,step2:0, step3: 0, step4:0,step5:0,step6:0})
-//     }else if(i==11){
-//       setItemToAsync(i,{in:0 ,step1:0,step2:0, step3:0, step4:0,step5:0})
-//     }else{
-//       setItemToAsync(i,{in:0})
-//     }
-//    }
-//   }
-// //각 지점 별 영역 도착 확인
 
 
 if( getItemFromAsync("busstop")){
