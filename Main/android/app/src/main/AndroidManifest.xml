@@ -1,10 +1,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
   package="com.test">
 
+  <queries>
+    <package android:name="com.google.android.apps.maps" />
+  </queries>
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     
     <application
       android:name=".MainApplication"
@@ -13,6 +18,13 @@
       android:roundIcon="@mipmap/ic_launcher_round"
       android:allowBackup="false"
       android:theme="@style/AppTheme">
+
+      <meta-data 
+       android:name="com.google.android.geo.API_KEY" 
+       android:value="AIzaSyATnf3g2j9oPUduymu4UulRiic8sEQGclY"
+      />
+      <uses-library android:name="org.apache.http.legacy" android:required="false"/> 
+
       <activity
         android:name=".MainActivity"
         android:label="@string/app_name"
