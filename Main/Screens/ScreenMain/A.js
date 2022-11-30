@@ -9,6 +9,7 @@ import {
   Animated,
 } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
+import Spinner from '../../Screens/ScreenMain/Spinner';
 
 const DATA = [
   {
@@ -103,7 +104,7 @@ const DATA = [
 
 export default function A() {
   const [data, setData] = useState(DATA);
-  const [nextDest, setNextDest] = useState('0');
+  const [nextDest, setNextDest] = useState('');
   const [distLeft, setDistLeft] = useState(0);
   const animation = useRef(new Animated.Value(0)).current;
   const bus = firestore().collection('bus');
@@ -185,7 +186,10 @@ export default function A() {
   });
 
   const renderItem = ({item}) => <Item item={item} />;
-  return (
+  
+  return nextDest === '' ? (
+    <Spinner />
+  ) : (
     <View style={styles.container}>
       <View style={styles.itemView}>
         <FlatList
