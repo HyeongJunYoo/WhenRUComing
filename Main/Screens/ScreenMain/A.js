@@ -104,17 +104,11 @@ const DATA = [
 
 export default function A() {
   const [data, setData] = useState(DATA);
-  const [nextDest, setNextDest] = useState('2');
+  const [nextDest, setNextDest] = useState('0');
   const [distLeft, setDistLeft] = useState(0);
   const animation = useRef(new Animated.Value(0)).current;
   const bus = firestore().collection('bus');
 
-  useEffect(() => {
-    bus.doc(1234).onSnapshot(documentSnapshot => {
-      setNextDest(documentSnapshot.data().longtitude);
-      setDistLeft(documentSnapshot.data().latitude);
-    });
-  }, []);
   const Item = ({item}) => (
     <View style={styles.item}>
       <View style={styles.icons}>
@@ -162,6 +156,13 @@ export default function A() {
   );
 
   useEffect(() => {
+    bus.doc('1234').onSnapshot(documentSnapshot => {
+      setNextDest(documentSnapshot.data().longitude);
+      setDistLeft(documentSnapshot.data().latitude);
+    });
+  }, []);
+
+  useEffect(() => {
     Animated.timing(animation, {
       toValue: distLeft,
       duration: 0,
@@ -169,47 +170,24 @@ export default function A() {
     }).start();
   }, [distLeft]);
 
+  useEffect(() => {
+    setData(
+      data.map(data =>
+        data.id === nextDest
+          ? {...data, nextStop01: true}
+          : {...data, nextStop01: false},
+      ),
+    );
+  }, [nextDest]);
+
   const percent = animation.interpolate({
     inputRange: [0, 100],
     outputRange: [-70, 0],
   });
 
-  const arrive = id => {
-    setData(
-      data.map(data =>
-        data.id === id
-          ? {...data, nextStop01: true}
-          : {...data, nextStop01: false},
-      ),
-    );
-  };
-
   const renderItem = ({item}) => <Item item={item} />;
   return (
     <View style={styles.container}>
-      <View style={{flexDirection: 'column', position: 'absolute'}}>
-        <TouchableOpacity
-          activeOpacity={0.5}
-          onPress={() => {
-            if (distLeft >= 100) {
-              setDistLeft(0);
-              setNextDest(((Number(nextDest) + 1) % data.length).toString());
-              arrive(nextDest);
-            } else {
-              setDistLeft(distLeft + 10);
-            }
-          }}>
-          <Text style={{fontSize: 20}}> ++10%</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          activeOpacity={0.5}
-          onPress={() => {
-            setNextDest(((Number(nextDest) + 1) % data.length).toString());
-            arrive(nextDest);
-          }}>
-          <Text style={{fontSize: 20}}>정류장 변경</Text>
-        </TouchableOpacity>
-      </View>
       <View style={styles.itemView}>
         <FlatList
           data={data}
