@@ -100,10 +100,32 @@ const BusMain = ({route}) => {
                 return N + " / 45";
               })()}
       </Text>
-      
+
       <TouchableOpacity onPress={() => requestPermissions()}>
         <Text> Get GeoLocation </Text>
       </TouchableOpacity>
+      <View>
+      <TouchableOpacity onPress={() => addCollection.doc(busNumber).get().then((doc)=>{
+                if(doc.data().student_NUM<45){
+                  const number=doc.data().student_NUM;
+                  addCollection.doc(busNumber).update({student_NUM:number+1});
+                }
+            })}
+            style={styles.buttonStyle2}
+            activeOpacity={0.5}>
+        <Text> + </Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => addCollection.doc(busNumber).get().then((doc)=>{
+                if(doc.data().student_NUM>0){
+                  const number=doc.data().student_NUM;
+                  addCollection.doc(busNumber).update({student_NUM:number-1});
+                }
+            })}
+            style={styles.buttonStyle2}
+            activeOpacity={0.5}>
+        <Text> - </Text>
+      </TouchableOpacity>
+      </View>
 
       <TouchableOpacity
               style={styles.buttonStyle2}
