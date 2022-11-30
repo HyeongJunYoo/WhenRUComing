@@ -6,7 +6,6 @@ import {
   StyleSheet,
   FlatList,
   Image,
-  TouchableOpacity,
   Animated,
 } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
@@ -173,7 +172,7 @@ export default function A() {
   useEffect(() => {
     setData(
       data.map(data =>
-        data.id === nextDest
+        data.id == nextDest
           ? {...data, nextStop01: true}
           : {...data, nextStop01: false},
       ),
