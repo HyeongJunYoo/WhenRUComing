@@ -1,13 +1,6 @@
 import React, {useState, useRef, useEffect} from 'react';
 // Import React and Component
-import {
-  View,
-  Text,
-  StyleSheet,
-  FlatList,
-  Image,
-  Animated,
-} from 'react-native';
+import {View, Text, StyleSheet, FlatList, Image, Animated} from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 import Spinner from '../../Screens/ScreenMain/Spinner';
 
@@ -157,8 +150,8 @@ export default function A() {
 
   useEffect(() => {
     bus.doc('1234').onSnapshot(documentSnapshot => {
-      setNextDest(documentSnapshot.data().longitude);
-      setDistLeft(documentSnapshot.data().latitude);
+      setNextDest(documentSnapshot.data().nextStop);
+      setDistLeft(documentSnapshot.data().distance);
     });
   }, []);
 
@@ -186,7 +179,7 @@ export default function A() {
   });
 
   const renderItem = ({item}) => <Item item={item} />;
-  
+
   return nextDest === '' ? (
     <Spinner />
   ) : (
