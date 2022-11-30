@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import { StyleSheet, Dimensions, View } from "react-native";
+import { StyleSheet, Dimensions, View, Alert } from "react-native";
 import QRCodeScanner from "react-native-qrcode-scanner";
 import firestore from '@react-native-firebase/firestore';
 
 const addCollection = firestore().collection('bus');
 
-export default class QRCodeScannerScreen extends Component {
+const QRCodeScannerScreen =({navigation})=>{
     onSuccess = async e => {
         try {
             addCollection.doc(e.data).get().then((doc)=>{
@@ -14,25 +14,25 @@ export default class QRCodeScannerScreen extends Component {
                   addCollection.doc(e.data).update({student_NUM:number+1});
                 }
             })
+            Alert.alert('차량탑승','', [{text: '확인', onPress: () => console.log('확인')},]);
+            {navigation.navigate("HomeMain")}
         }catch (e) {
             console.log(e);
         }
     };
-    render() {
-        return (
-            <View style={styles.container}>
-                <QRCodeScanner
-                    onRead={this.onSuccess}
-                    showMarker={true}
-                    checkAndroid6Permissions={true}
-                    ref={elem => {
-                        this.scanner = elem;
-                    }}
-                    cameraStyle={{ height: Dimensions.get("window").height }}
-                />
-            </View>
-        );
-    }
+    return (
+        <View style={styles.container}>
+            <QRCodeScanner
+                onRead={this.onSuccess}
+                showMarker={true}
+                checkAndroid6Permissions={true}
+                ref={elem => {
+                    this.scanner = elem;
+                }}
+                cameraStyle={{ height: Dimensions.get("window").height }}
+            />
+        </View>
+    );
 }
 
 const styles = StyleSheet.create({
@@ -48,3 +48,5 @@ const styles = StyleSheet.create({
         margin: 10
     }
 });
+
+export default QRCodeScannerScreen;
